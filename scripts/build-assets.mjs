@@ -1,0 +1,183 @@
+import fs from "node:fs";
+import path from "node:path";
+import sharp from "sharp";
+
+const ROOT = process.cwd();
+const MASTER_ROOT = path.join(ROOT, "assets-master");
+const PUBLIC_V1 = path.join(ROOT, "public", "assets", "v1");
+const GENERATED_DIR = path.join(ROOT, "src", "generated");
+
+function encodeBitmask(alphaChannel, width, height, threshold = 31) {
+  const totalPixels = width * height;
+  const byteLength = Math.ceil(totalPixels / 8);
+  const packed = Buffer.alloc(byteLength);
+  for (let i = 0; i < totalPixels; i += 1) {
+    if ((alphaChannel[i * 4 + 3] ?? 0) >= threshold) {
+      packed[i >> 3] |= 1 << (i & 7);
+    }
+  }
+  return {
+    width,
+    height,
+    threshold,
+    bitsBase64: packed.toString("base64"),
+  };
+}
+
+async function compileFlowers() {
+  const metaPath = path.join(MASTER_ROOT, "catalog-meta.json");
+  const rawMeta = JSON.parse(fs.readFileSync(metaPath, "utf8"));
+  const outDir = path.join(PUBLIC_V1, "flowers");
+  fs.mkdirSync(outDir, { recursive: true });
+
+  const enrichedEntries = [];
+
+  for (const entry of rawMeta) {
+    const srcFile = path.join(MASTER_ROOT, "flowers", `${entry.skuId}.png`);
+    if (!fs.existsSync(srcFile)) {
+      throw new Error(`Missing flower master asset: ${srcFile}`);
+    }
+
+    const img = sharp(srcFile);
+    const info = await img.metadata();
+    const w = info.width ?? 840;
+    const h = info.height ?? 1400;
+
+    // 1. Export LOD (1400px max edge)
+    const exportRel = `/assets/v1/flowers/${entry.skuId}-export.webp`;
+    await sharp(srcFile)
+      .resize(1400, 1400, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 90, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(ROOT, "public", exportRel));
+
+    // 2. Studio LOD (700px max edge)
+    const studioRel = `/assets/v1/flowers/${entry.skuId}-studio.webp`;
+    await sharp(srcFile)
+      .resize(700, 700, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 86, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(ROOT, "public", studioRel));
+
+    // 3. Crisp Portrait Thumb (200x200 focused on bloom crown for non-petal stems)
+    const thumbRel = `/assets/v1/flowers/${entry.skuId}-thumb.webp`;
+    const thumbPipeline =
+      entry.role === "petal"
+        ? sharp(srcFile)
+        : sharp(srcFile).extract({
+            left: 0,
+            top: 0,
+            width: w,
+            height: Math.min(h, Math.round(h * 0.52)),
+          });
+
+    await thumbPipeline
+      .resize(200, 200, {
+        fit: "contain",
+        background: { r: 0, g: 0, b: 0, alpha: 0 },
+      })
+      .webp({ quality: 84, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(ROOT, "public", thumbRel));
+
+    // 4. Hitmask JSON (160px max edge 1-bit alpha bitmask at 12% = alpha 31/255)
+    const hitmaskRel = `/assets/v1/flowers/${entry.skuId}-hitmask.json`;
+    const { data, info: hmInfo } = await sharp(srcFile)
+      .resize(160, 160, { fit: "inside", withoutEnlargement: true })
+      .ensureAlpha()
+      .raw()
+      .toBuffer({ resolveWithObject: true });
+
+    const bitmask = encodeBitmask(data, hmInfo.width, hmInfo.height, 31);
+    fs.writeFileSync(path.join(ROOT, "public", hitmaskRel), JSON.stringify(bitmask));
+
+    enrichedEntries.push({
+      ...entry,
+      thumbPath: thumbRel,
+      studioPath: studioRel,
+      exportPath: exportRel,
+      hitmaskPath: hitmaskRel,
+    });
+  }
+
+  return enrichedEntries;
+}
+
+async function compileVessels() {
+  const srcDir = path.join(MASTER_ROOT, "vessels");
+  const outDir = path.join(PUBLIC_V1, "vessels");
+  fs.mkdirSync(outDir, { recursive: true });
+  const files = fs.readdirSync(srcDir).filter((f) => f.endsWith(".png"));
+
+  for (const file of files) {
+    const base = file.replace(/\.png$/, "");
+    const srcPath = path.join(srcDir, file);
+    await sharp(srcPath)
+      .webp({ quality: 92, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(outDir, `${base}-export.webp`));
+
+    await sharp(srcPath)
+      .resize(700, 840, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 88, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(outDir, `${base}-studio.webp`));
+  }
+}
+
+async function compileRibbons() {
+  const srcDir = path.join(MASTER_ROOT, "ribbons");
+  const outDir = path.join(PUBLIC_V1, "ribbons");
+  fs.mkdirSync(outDir, { recursive: true });
+  const files = fs.readdirSync(srcDir).filter((f) => f.endsWith(".png"));
+
+  for (const file of files) {
+    const base = file.replace(/\.png$/, "");
+    const srcPath = path.join(srcDir, file);
+    await sharp(srcPath)
+      .webp({ quality: 90, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(outDir, `${base}-export.webp`));
+
+    await sharp(srcPath)
+      .resize(350, 350, { fit: "inside", withoutEnlargement: true })
+      .webp({ quality: 86, alphaQuality: 100, effort: 5 })
+      .toFile(path.join(outDir, `${base}-studio.webp`));
+  }
+}
+
+function writeManifestTs(entries) {
+  fs.mkdirSync(GENERATED_DIR, { recursive: true });
+  const content = `// Auto-generated by scripts/build-assets.mjs — do not edit manually.
+import type { BotanicalMeta } from "@/engine/types";
+
+export const CATALOG_ENTRIES: readonly BotanicalMeta[] = ${JSON.stringify(entries, null, 2)} as const;
+
+export const CATALOG_META_MAP: ReadonlyMap<string, BotanicalMeta> = new Map(
+  CATALOG_ENTRIES.map((entry) => [entry.skuId, entry]),
+);
+
+export const ALLOWED_SKU_IDS: ReadonlySet<string> = new Set(
+  CATALOG_ENTRIES.map((entry) => entry.skuId),
+);
+
+export const BOTANICAL_FAMILIES = Array.from(
+  CATALOG_ENTRIES.reduce((map, entry) => {
+    const list = map.get(entry.familyId) ?? [];
+    list.push(entry);
+    map.set(entry.familyId, list);
+    return map;
+  }, new Map<string, BotanicalMeta[]>()),
+);
+`;
+
+  fs.writeFileSync(path.join(GENERATED_DIR, "catalog-manifest.ts"), content);
+}
+
+async function main() {
+  const entries = await compileFlowers();
+  await compileVessels();
+  await compileRibbons();
+  writeManifestTs(entries);
+  console.log(`Compiled ${entries.length} botanical SKUs + vessels + ribbons to ${PUBLIC_V1}`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
+
