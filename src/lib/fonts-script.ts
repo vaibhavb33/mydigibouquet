@@ -1,10 +1,15 @@
-import { Alex_Brush } from "next/font/google";
+import localFont from "next/font/local";
 
-export const alexBrush = Alex_Brush({
-  subsets: ["latin"],
-  weight: ["400"],
-  style: ["normal"],
+export const alexBrush = localFont({
+  src: [
+    {
+      path: "../fonts/alex-brush-latin.woff2",
+      weight: "400",
+      style: "normal",
+    },
+  ],
   display: "swap",
+  adjustFontFallback: "Arial",
   variable: "--font-alex-brush",
 });
 

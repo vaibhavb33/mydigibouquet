@@ -88,7 +88,7 @@ Users and recipients view arrangements over 4 calm studio surfaces (rendered via
 
 ## 3. Typography System & Stationery Pairings
 
-All fonts are self-hosted via `next/font/google` (`display: swap` + fallback metric adjustment) to prevent Cumulative Layout Shift (`CLS < 0.05`).
+All fonts are self-hosted via `next/font/local` (`src/fonts/*.woff2`, `display: swap` + fallback metric adjustment) so builds require zero external font fetches and prevent Cumulative Layout Shift (`CLS < 0.05`).
 
 - **Route Font Isolation:** The root layout loads **only** `Cormorant Garamond` + `Plus Jakarta Sans` (`LCP` protection for `/` and SEO routes). `Alex Brush` and `Lora` load **strictly within `/studio`** and **on demand** for `/b/[slug]` when selected by the bouquet.
 - **Canvas Export Parity:** Offscreen PNG export resolves `ctx.font` via `next/font`'s `fontObject.style.fontFamily` and explicitly awaits `document.fonts.load(...)` for required weights. Node.js `@napi-rs/canvas` OG renders bundle local `.woff2`/`.ttf` binaries on disk.

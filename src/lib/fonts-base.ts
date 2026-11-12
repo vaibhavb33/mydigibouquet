@@ -1,18 +1,33 @@
-import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import localFont from "next/font/local";
 
-export const cormorantGaramond = Cormorant_Garamond({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal", "italic"],
+export const cormorantGaramond = localFont({
+  src: [
+    {
+      path: "../fonts/cormorant-garamond-latin.woff2",
+      weight: "400 600",
+      style: "normal",
+    },
+    {
+      path: "../fonts/cormorant-garamond-italic-latin.woff2",
+      weight: "400 600",
+      style: "italic",
+    },
+  ],
   display: "swap",
+  adjustFontFallback: "Times New Roman",
   variable: "--font-cormorant",
 });
 
-export const plusJakartaSans = Plus_Jakarta_Sans({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  style: ["normal"],
+export const plusJakartaSans = localFont({
+  src: [
+    {
+      path: "../fonts/plus-jakarta-sans-latin.woff2",
+      weight: "400 600",
+      style: "normal",
+    },
+  ],
   display: "swap",
+  adjustFontFallback: "Arial",
   variable: "--font-plus-jakarta",
 });
 

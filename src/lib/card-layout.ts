@@ -13,10 +13,10 @@ export function getCardFontFamilies(
   pairingId: FontPairingId,
   resolved: { cormorant?: string; plusJakarta?: string; alexBrush?: string; lora?: string } = {},
 ): { displayFont: string; bodyFont: string } {
-  const serif = resolved.cormorant ?? "'Cormorant Garamond', Georgia, serif";
-  const sans = resolved.plusJakarta ?? "'Plus Jakarta Sans', sans-serif";
-  const script = resolved.alexBrush ?? "'Alex Brush', 'Lora', cursive";
-  const lora = resolved.lora ?? "'Lora', Georgia, serif";
+  const serif = resolved.cormorant ?? "cormorantGaramond, 'Cormorant Garamond', Georgia, serif";
+  const sans = resolved.plusJakarta ?? "plusJakartaSans, 'Plus Jakarta Sans', sans-serif";
+  const script = resolved.alexBrush ?? "alexBrush, 'Alex Brush', loraFont, 'Lora', cursive";
+  const lora = resolved.lora ?? "loraFont, 'Lora', Georgia, serif";
 
   switch (pairingId) {
     case "editorial-serif":
