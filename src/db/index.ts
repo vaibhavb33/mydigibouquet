@@ -7,8 +7,11 @@ import { STARTER_BOUQUETS, buildSceneFromPreset } from "@/engine/presets";
 import { CATALOG_META_MAP } from "@/generated/catalog-manifest";
 import { getDatabaseConfig } from "@/lib/env";
 
+type PetalDbInstance = ReturnType<typeof drizzle<typeof schema>>;
+
 declare global {
   var __petalLibsqlClient: Client | undefined;
+  var __petalDrizzleDb: PetalDbInstance | undefined;
   var __petalDbInitPromise: Promise<void> | undefined;
 }
 
@@ -23,7 +26,23 @@ function getClient(): Client {
   return globalThis.__petalLibsqlClient;
 }
 
-export const db = drizzle(getClient(), { schema });
+function getDbInstance(): PetalDbInstance {
+  if (!globalThis.__petalDrizzleDb) {
+    globalThis.__petalDrizzleDb = drizzle(getClient(), { schema });
+  }
+  return globalThis.__petalDrizzleDb;
+}
+
+/**
+ * Lazy proxy avoids opening SQLite files during module evaluation on serverless imports.
+ */
+export const db: PetalDbInstance = new Proxy({} as PetalDbInstance, {
+  get(_target, prop) {
+    const instance = getDbInstance();
+    const value = Reflect.get(instance, prop, instance);
+    return typeof value === "function" ? value.bind(instance) : value;
+  },
+});
 
 export function hashEditToken(token: string): string {
   return crypto.createHash("sha256").update(token).digest("hex");
@@ -133,7 +152,10 @@ export async function ensureDbReady(): Promise<void> {
           });
         }
       }
-    })();
+    })().catch((err) => {
+      globalThis.__petalDbInitPromise = undefined;
+      throw err;
+    });
   }
   return globalThis.__petalDbInitPromise;
 }

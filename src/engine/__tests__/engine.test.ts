@@ -621,16 +621,30 @@ describe("Phase 7 Release Security: CSRF Origin Check, Rate Limiter & Env Mode D
     expect(checkRateLimit(makeReq("203.0.113.11"), { bucket, limit: 2, windowMs: 60_000 })).toBeNull();
   });
 
-  it("detects local-sqlite vs remote-libsql cleanly", () => {
-    const prev = process.env.DATABASE_URL;
+  it("detects local-sqlite vs remote-libsql cleanly and uses /tmp on read-only serverless", () => {
+    const prevUrl = process.env.DATABASE_URL;
+    const prevVercel = process.env.VERCEL;
     try {
       delete process.env.DATABASE_URL;
-      expect(getDatabaseConfig().mode).toBe("local-sqlite");
+      delete process.env.VERCEL;
+      const localCfg = getDatabaseConfig();
+      expect(localCfg.mode).toBe("local-sqlite");
+      expect(localCfg.url).toBe("file:./local.db");
+
+      process.env.VERCEL = "1";
+      const vercelTmpCfg = getDatabaseConfig();
+      expect(vercelTmpCfg.mode).toBe("local-sqlite");
+      expect(vercelTmpCfg.url).toBe("file:/tmp/mydigibouquet.db");
+
       process.env.DATABASE_URL = "libsql://petal-prod.turso.io";
-      expect(getDatabaseConfig().mode).toBe("remote-libsql");
+      const remoteCfg = getDatabaseConfig();
+      expect(remoteCfg.mode).toBe("remote-libsql");
+      expect(remoteCfg.url).toBe("libsql://petal-prod.turso.io");
     } finally {
-      if (prev === undefined) delete process.env.DATABASE_URL;
-      else process.env.DATABASE_URL = prev;
+      if (prevUrl === undefined) delete process.env.DATABASE_URL;
+      else process.env.DATABASE_URL = prevUrl;
+      if (prevVercel === undefined) delete process.env.VERCEL;
+      else process.env.VERCEL = prevVercel;
     }
   });
 });

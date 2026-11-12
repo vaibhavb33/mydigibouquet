@@ -9,7 +9,12 @@ export function getDatabaseConfig(): {
   authToken?: string;
   mode: StorageBackendMode;
 } {
-  const url = process.env.DATABASE_URL?.trim() || "file:./local.db";
+  const explicitUrl = process.env.DATABASE_URL?.trim();
+  const isServerlessReadOnlyRoot =
+    Boolean(process.env.VERCEL) || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+  const url =
+    explicitUrl ||
+    (isServerlessReadOnlyRoot ? "file:/tmp/mydigibouquet.db" : "file:./local.db");
   const authToken = process.env.DATABASE_AUTH_TOKEN?.trim() || undefined;
   const mode: StorageBackendMode =
     url.startsWith("libsql://") || url.startsWith("https://")
