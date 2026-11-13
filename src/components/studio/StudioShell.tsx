@@ -23,12 +23,12 @@ const WORKFLOW_STEPS: ReadonlyArray<{
   shortLabel: string;
   label: string;
 }> = [
-  { step: 1, mobileLabel: "Flowers", shortLabel: "1. Flowers", label: "1. Select Flowers" },
-  { step: 2, mobileLabel: "Greens", shortLabel: "2. Greens", label: "2. Select Greenery" },
-  { step: 3, mobileLabel: "Arrange", shortLabel: "3. Arrange", label: "3. Arrange & Wrap" },
-  { step: 4, mobileLabel: "Card", shortLabel: "4. Card", label: "4. Personalize Card" },
-  { step: 5, mobileLabel: "Share", shortLabel: "5. Share", label: "5. Share Bouquet" },
-];
+    { step: 1, mobileLabel: "Flowers", shortLabel: "1. Flowers", label: "1. Select Flowers" },
+    { step: 2, mobileLabel: "Greens", shortLabel: "2. Greens", label: "2. Select Greenery" },
+    { step: 3, mobileLabel: "Arrange", shortLabel: "3. Arrange", label: "3. Arrange & Wrap" },
+    { step: 4, mobileLabel: "Card", shortLabel: "4. Card", label: "4. Personalize Card" },
+    { step: 5, mobileLabel: "Share", shortLabel: "5. Share", label: "5. Share Bouquet" },
+  ];
 
 function useIsDesktopLg(): boolean {
   const [isDesktop, setIsDesktop] = useState(true);
@@ -165,11 +165,10 @@ function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMod
               data-testid="mode-guided-btn"
               aria-pressed={(studioMode as StudioMode) === "guided"}
               onClick={() => setStudioMode("guided")}
-              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${
-                (studioMode as StudioMode) === "guided"
-                  ? "bg-[var(--text-primary)] text-white shadow-2xs"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-              }`}
+              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${(studioMode as StudioMode) === "guided"
+                ? "bg-[var(--text-primary)] text-white shadow-2xs"
+                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
             >
               <span className="sm:hidden">Guided</span>
               <span className="hidden sm:inline">Guided Studio</span>
@@ -179,11 +178,10 @@ function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMod
               data-testid="mode-quick-btn"
               aria-pressed={studioMode === "quick"}
               onClick={() => setStudioMode("quick")}
-              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${
-                studioMode === "quick"
-                  ? "bg-[var(--text-primary)] text-white shadow-2xs"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-              }`}
+              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${studioMode === "quick"
+                ? "bg-[var(--text-primary)] text-white shadow-2xs"
+                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
             >
               <span className="sm:hidden">Quick</span>
               <span className="hidden sm:inline">Quick Create</span>
@@ -193,11 +191,10 @@ function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMod
               data-testid="mode-studio-btn"
               aria-pressed={studioMode === "studio"}
               onClick={() => switchToAdvancedStudio(studioMode === "quick" ? 3 : activeStep)}
-              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${
-                studioMode === "studio"
-                  ? "bg-[var(--text-primary)] text-white shadow-2xs"
-                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-              }`}
+              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${studioMode === "studio"
+                ? "bg-[var(--text-primary)] text-white shadow-2xs"
+                : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                }`}
             >
               <span className="sm:hidden">Advanced</span>
               <span className="hidden sm:inline">Advanced Studio</span>
@@ -286,13 +283,12 @@ function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMod
                     data-testid={`workflow-step-${item.step}`}
                     aria-current={current ? "step" : undefined}
                     onClick={() => handleStepSelect(item.step)}
-                    className={`min-h-[32px] rounded-full px-1 text-[11px] font-semibold transition sm:px-2 md:px-3.5 md:text-xs ${
-                      current
-                        ? "bg-[var(--accent-primary)] text-white shadow-2xs"
-                        : completed
-                          ? "bg-[var(--accent-primary-soft)] text-[var(--accent-primary)]"
-                          : "bg-[var(--bg-well)]/70 text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
-                    }`}
+                    className={`min-h-[32px] rounded-full px-1 text-[11px] font-semibold transition sm:px-2 md:px-3.5 md:text-xs ${current
+                      ? "bg-[var(--accent-primary)] text-white shadow-2xs"
+                      : completed
+                        ? "bg-[var(--accent-primary-soft)] text-[var(--accent-primary)]"
+                        : "bg-[var(--bg-well)]/70 text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
+                      }`}
                   >
                     <span className="md:hidden">{item.mobileLabel}</span>
                     <span className="hidden md:inline">{item.label}</span>
@@ -425,11 +421,10 @@ function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMod
                         else if (item.id === "finish" || item.id === "inspect") setActiveStep(3);
                         setMobileDrawer(active ? "none" : item.id);
                       }}
-                      className={`min-h-[42px] rounded-xl text-xs font-semibold transition ${
-                        active
-                          ? "bg-[var(--accent-primary)] text-white"
-                          : "bg-[var(--bg-well)]/60 text-[var(--text-secondary)]"
-                      }`}
+                      className={`min-h-[42px] rounded-xl text-xs font-semibold transition ${active
+                        ? "bg-[var(--accent-primary)] text-white"
+                        : "bg-[var(--bg-well)]/60 text-[var(--text-secondary)]"
+                        }`}
                     >
                       {item.label}
                     </button>

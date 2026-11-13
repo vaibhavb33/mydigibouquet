@@ -141,6 +141,113 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     errors.assertClean();
   });
 
+  test("Quick Create Mode: 5-Screen User Journey (8 Occasions, 6 Real Rendered Styles, Optional Customization, Card Keepsakes & Multi-Channel Share)", async ({
+    page,
+  }) => {
+    fs.mkdirSync(SCRATCH_DIR, { recursive: true });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const errors = attachErrorCollectors(page);
+
+    // Navigate to Quick Create mode
+    await page.goto("/studio?mode=quick", { waitUntil: "networkidle" });
+    await expect(page.getByTestId("quick-create-mode")).toBeVisible();
+    await page.waitForFunction(() => document.querySelectorAll("canvas").length > 0);
+
+    // ==================== SCREEN 1: CHOOSE AN OCCASION ====================
+    await expect(page.getByTestId("quick-step-1")).toHaveAttribute("aria-current", "step");
+    // Verify all 8 requested visual occasion cards
+    const expectedOccasions = [
+      "Birthday",
+      "Anniversary",
+      "Love",
+      "Thank You",
+      "Friendship",
+      "Wedding",
+      "Get Well Soon",
+      "Just Because",
+    ];
+    for (const occName of expectedOccasions) {
+      await expect(
+        page.getByTestId("quick-step1-occasion").getByRole("button", { name: new RegExp(occName, "i") }),
+      ).toBeVisible();
+    }
+    // Select "Love"
+    await page.getByTestId("quick-step1-occasion").getByRole("button", { name: /Love/i }).click();
+    await page.getByTestId("quick-next-btn").click();
+
+    // ==================== SCREEN 2: CHOOSE A STYLE ====================
+    await expect(page.getByTestId("quick-step-2")).toHaveAttribute("aria-current", "step");
+    // Verify six attractive bouquet examples with real rendered previews
+    const expectedStyles = [
+      "Garden Romance",
+      "Classic Round",
+      "European Hand-Tied",
+      "Wildflower Garden",
+      "Luxury Rose Bouquet",
+      "Spring Pastel",
+    ];
+    for (const styleTitle of expectedStyles) {
+      await expect(
+        page.getByTestId("quick-step2-style").getByRole("button", { name: new RegExp(styleTitle, "i") }),
+      ).toBeVisible();
+    }
+    // Select "Garden Romance"
+    await page.getByTestId("quick-preset-romantic").click();
+    await page.getByTestId("quick-next-btn").click();
+
+    // ==================== SCREEN 3: CUSTOMIZE (OPTIONAL CONTROLS) ====================
+    await expect(page.getByTestId("quick-step-3")).toHaveAttribute("aria-current", "step");
+    // 1. Change flower colors
+    await expect(page.getByRole("button", { name: "Blush Pink" })).toBeVisible();
+    await page.getByRole("button", { name: "Blush Pink" }).click();
+    // 2. Add greenery
+    await page.getByRole("button", { name: "+ Add Greenery" }).click();
+    await expect(page.getByTestId("quick-add-greenery-eucalyptus-silver")).toBeVisible();
+    await page.getByTestId("quick-add-greenery-eucalyptus-silver").click();
+    // 3. Choose wrapping
+    await page.getByRole("button", { name: "Wrapping" }).click();
+    await page.getByTestId("quick-vessel-wrap-sage-cotton").click();
+    // 4. Change ribbon
+    await page.getByRole("button", { name: "Ribbon & Bow" }).click();
+    await page.getByRole("button", { name: "Velvet Ribbon" }).click();
+    await page.getByTestId("quick-next-btn").click();
+
+    // ==================== SCREEN 4: PERSONALIZE ====================
+    await expect(page.getByTestId("quick-step-4")).toHaveAttribute("aria-current", "step");
+    await page.getByPlaceholder("e.g. Clara").fill("Sophia");
+    await page.getByPlaceholder("e.g. Theo").fill("Arthur");
+    await page.getByPlaceholder("Write a heartfelt message…").fill("Every blossom gathered slowly for you.");
+    await page.getByRole("button", { name: "+ Romantic Note" }).click();
+    // Verify optional photo and voice attachment
+    await expect(page.getByText("Optional Keepsake Attachments")).toBeVisible();
+    await page.getByTestId("quick-next-btn").click();
+
+    // ==================== SCREEN 5: SHARE ====================
+    await expect(page.getByTestId("quick-step-5")).toHaveAttribute("aria-current", "step");
+    await expect(page.getByTestId("step5-final-preview")).toBeVisible();
+    // 1. Test Wax Seal unboxing reveal
+    await page.getByTestId("preview-reveal-btn").click();
+    await expect(page.getByTestId("preview-wax-seal-btn")).toBeVisible();
+    await page.getByTestId("preview-wax-seal-btn").click();
+    // 2. Copy Link
+    await page.getByTestId("publish-share-btn").click();
+    await expect(page.getByTestId("share-result-box")).toBeVisible();
+    // 3. WhatsApp Share
+    await expect(page.getByTestId("whatsapp-share-btn")).toBeVisible();
+    // 4. Download Image
+    await expect(page.getByTestId("export-download-btn")).toBeVisible();
+    // 5. Preview Recipient Experience
+    await expect(page.getByTestId("preview-unboxing-experience-btn")).toBeVisible();
+
+    // Take screenshot of completed Quick Create share screen
+    await page.screenshot({
+      path: path.join(SCRATCH_DIR, "quick-create-user-journey-screen5.png"),
+      fullPage: false,
+    });
+
+    errors.assertClean();
+  });
+
   test("Clean Guided Interface: Top Bar, Dominant Canvas, Zoom, Selected Indicators & 4-Step Bottom Nav", async ({
     page,
     context,
