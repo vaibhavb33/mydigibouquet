@@ -6,6 +6,7 @@ import { StudioSceneProvider, useStudioScene } from "./StudioSceneProvider";
 import { AiAssistantDrawer } from "./AiAssistantDrawer";
 import { BotanicalLibraryPanel } from "./BotanicalLibraryPanel";
 import { FinalSharePreviewStage } from "./FinalSharePreviewStage";
+import { GuidedStudioExperience } from "./GuidedStudioExperience";
 import { InspectorAndFinishingPanel, type RightPanelTab } from "./InspectorAndFinishingPanel";
 import { QuickCreateFlow } from "./QuickCreateFlow";
 import { SavedProjectsDrawer } from "./SavedProjectsDrawer";
@@ -13,7 +14,7 @@ import { StudioCanvasViewport } from "./StudioCanvasViewport";
 import { trackPrivacySafeEvent } from "@/lib/analytics";
 
 export type StudioWorkflowStep = 1 | 2 | 3 | 4 | 5;
-export type StudioMode = "quick" | "studio";
+export type StudioMode = "guided" | "quick" | "studio";
 type MobileDrawerMode = "none" | "library" | "inspect" | "finish" | "card" | "share";
 
 const WORKFLOW_STEPS: ReadonlyArray<{
@@ -79,7 +80,7 @@ function StudioKeyboardBridge() {
   return null;
 }
 
-function StudioInnerLayout({ initialMode = "quick" }: { initialMode?: StudioMode }) {
+function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMode }) {
   const { scene, draftSavedAt } = useStudioScene();
   const isDesktop = useIsDesktopLg();
   const [studioMode, setStudioMode] = useState<StudioMode>(initialMode);
@@ -123,6 +124,22 @@ function StudioInnerLayout({ initialMode = "quick" }: { initialMode?: StudioMode
     handleStepSelect(targetStep, false);
   };
 
+  // Dedicated Guided Studio Experience (clean, single-header, canvas-dominant)
+  if (studioMode === "guided") {
+    return (
+      <div className="h-[100dvh] w-full overflow-hidden bg-[var(--bg-canvas)]">
+        <StudioKeyboardBridge />
+        <GuidedStudioExperience
+          onSwitchToAdvanced={() => switchToAdvancedStudio(activeStep)}
+          onOpenProjects={() => setProjectsOpen(true)}
+          onOpenAi={() => setAiOpen(true)}
+        />
+        <SavedProjectsDrawer open={projectsOpen} onClose={() => setProjectsOpen(false)} />
+        <AiAssistantDrawer open={aiOpen} onClose={() => setAiOpen(false)} />
+      </div>
+    );
+  }
+
   return (
     <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
       <StudioKeyboardBridge />
@@ -137,12 +154,26 @@ function StudioInnerLayout({ initialMode = "quick" }: { initialMode?: StudioMode
             Petal &amp; Prose
           </Link>
 
-          {/* Dual-Mode Switcher: Quick Create vs Advanced Studio */}
+          {/* Multi-Mode Switcher: Guided Studio vs Quick Create vs Advanced Studio */}
           <div
             role="group"
             aria-label="Creation mode"
             className="inline-flex shrink-0 items-center rounded-full border border-[var(--border-hairline)] bg-[var(--bg-well)]/75 p-0.5"
           >
+            <button
+              type="button"
+              data-testid="mode-guided-btn"
+              aria-pressed={(studioMode as StudioMode) === "guided"}
+              onClick={() => setStudioMode("guided")}
+              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${
+                (studioMode as StudioMode) === "guided"
+                  ? "bg-[var(--text-primary)] text-white shadow-2xs"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              <span className="sm:hidden">Guided</span>
+              <span className="hidden sm:inline">Guided Studio</span>
+            </button>
             <button
               type="button"
               data-testid="mode-quick-btn"
@@ -168,7 +199,7 @@ function StudioInnerLayout({ initialMode = "quick" }: { initialMode?: StudioMode
                   : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
               }`}
             >
-              <span className="sm:hidden">Studio</span>
+              <span className="sm:hidden">Advanced</span>
               <span className="hidden sm:inline">Advanced Studio</span>
             </button>
           </div>
@@ -420,7 +451,7 @@ export function StudioShell({
   initialPresetSlug,
   initialOccasionSlug,
   initialStemSlug,
-  initialMode = "quick",
+  initialMode = "guided",
 }: {
   initialPresetSlug?: string | null;
   initialOccasionSlug?: string | null;

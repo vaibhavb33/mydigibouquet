@@ -62,7 +62,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const errors = attachErrorCollectors(page);
 
-    await page.goto("/studio", { waitUntil: "networkidle" });
+    await page.goto("/studio?mode=quick", { waitUntil: "networkidle" });
     await expect(page.getByTestId("quick-create-mode")).toBeVisible();
     await expect(page.getByTestId("mode-quick-btn")).toHaveAttribute("aria-pressed", "true");
     await page.waitForFunction(() => document.querySelectorAll("canvas").length > 0);
@@ -124,7 +124,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     const mobileQuick = await context.newPage();
     const mobileErrors = attachErrorCollectors(mobileQuick);
     await mobileQuick.setViewportSize({ width: 360, height: 800 });
-    await mobileQuick.goto("/studio", { waitUntil: "networkidle" });
+    await mobileQuick.goto("/studio?mode=quick", { waitUntil: "networkidle" });
     await expect(mobileQuick.getByTestId("quick-create-mode")).toBeVisible();
     await mobileQuick.waitForTimeout(300);
     const overflow = await mobileQuick.evaluate(
@@ -137,6 +137,112 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     });
     mobileErrors.assertClean();
     await mobileQuick.close();
+
+    errors.assertClean();
+  });
+
+  test("Clean Guided Interface: Top Bar, Dominant Canvas, Zoom, Selected Indicators & 4-Step Bottom Nav", async ({
+    page,
+    context,
+  }) => {
+    fs.mkdirSync(SCRATCH_DIR, { recursive: true });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const errors = attachErrorCollectors(page);
+
+    // 1. Visit /studio (default is Guided Studio)
+    await page.goto("/studio", { waitUntil: "networkidle" });
+    await expect(page.getByTestId("guided-studio-root")).toBeVisible();
+    await page.waitForFunction(() => document.querySelectorAll("canvas").length > 0);
+
+    // 2. Top Bar verification: Logo, Save status, My Bouquets, Preview, Share, Advanced Studio
+    await expect(page.getByTestId("guided-studio-root").getByRole("link", { name: "Petal & Prose" })).toBeVisible();
+    await expect(page.getByTestId("open-projects-btn")).toBeVisible();
+    await expect(page.getByTestId("preview-unboxing-btn")).toBeVisible();
+    await expect(page.getByTestId("jump-share-btn")).toBeVisible();
+    await expect(page.getByTestId("mode-studio-btn")).toBeVisible();
+
+    // 3. Center Workspace: Dominant Bouquet Canvas & Zoom Controls
+    const canvasContainer = page.getByTestId("bouquet-konva-container");
+    await expect(canvasContainer).toBeVisible();
+    const zoomControls = page.getByRole("group", { name: "Canvas zoom controls" });
+    await expect(zoomControls).toBeVisible();
+    await page.getByRole("button", { name: "Zoom in" }).click();
+    await expect(page.getByTitle("Reset zoom to 100%")).toContainText("115%");
+    await page.getByTitle("Reset zoom to 100%").click();
+    await expect(page.getByTitle("Reset zoom to 100%")).toContainText("100%");
+
+    // 4. Four-step bottom navigation
+    await expect(page.getByTestId("guided-nav-flowers")).toBeVisible();
+    await expect(page.getByTestId("guided-nav-style")).toBeVisible();
+    await expect(page.getByTestId("guided-nav-personalize")).toBeVisible();
+    await expect(page.getByTestId("guided-nav-share")).toBeVisible();
+
+    // 5. Step 1: Flower Selection (Grid, Thumbnails, Name, Color, Add, Search & Filters)
+    await page.getByTestId("guided-nav-flowers").click();
+    await expect(page.getByTestId("guided-step-tray")).toBeVisible();
+    const searchInput = page.getByTestId("library-search-input");
+    await searchInput.fill("Rose");
+    await expect(page.getByTestId("flower-card-rose-blush-open")).toBeVisible();
+    await searchInput.fill("");
+    await page.getByRole("button", { name: "Roses" }).click();
+    await expect(page.getByTestId("flower-card-rose-crimson-open")).toBeVisible();
+    await page.getByTestId("add-stem-rose-crimson-open").click();
+
+    // 6. Step 2: Style (Shapes 10, Wrapping 7, Ribbon, Background)
+    await page.getByTestId("guided-nav-style").click();
+    await expect(page.getByTestId("shape-card-romantic")).toBeVisible();
+    await page.getByTestId("shape-card-peony-deluxe").click();
+    await page.getByRole("button", { name: "Wrapping Paper (7)" }).click();
+    await expect(page.getByTestId("wrap-card-wrap-blush-linen")).toBeVisible();
+    await page.getByTestId("wrap-card-wrap-sage-cotton").click();
+    await page.getByRole("button", { name: "Background Surface" }).click();
+    await page.getByRole("button", { name: "Travertine" }).click();
+
+    // 7. Step 3: Personalize (Recipient, Sender, Message, Card Templates, Photo, Voice)
+    await page.getByTestId("guided-nav-personalize").click();
+    await page.getByPlaceholder("e.g. Clara").fill("Elena");
+    await page.getByPlaceholder("e.g. Liam").fill("Marcus");
+    await page.getByPlaceholder("Write your personal message…").fill("Every petal selected with love.");
+    await page.getByRole("button", { name: "+ Birthday Wish" }).click();
+
+    // 8. Step 4: Share (Final bouquet & card, Copy link, WhatsApp, Download PNG, Download JPG)
+    await page.getByTestId("guided-nav-share").click();
+    await expect(page.getByTestId("copy-link-btn")).toBeVisible();
+    await expect(page.getByRole("link", { name: "WhatsApp" })).toBeVisible();
+    await expect(page.getByTestId("download-png-btn")).toBeVisible();
+    await expect(page.getByTestId("download-jpg-btn")).toBeVisible();
+
+    const [pngDownload] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByTestId("download-png-btn").click(),
+    ]);
+    expect(pngDownload.suggestedFilename()).toMatch(/\.png$/i);
+
+    await page.getByTestId("copy-link-btn").click();
+    await page.screenshot({ path: path.join(SCRATCH_DIR, "guided-studio-desktop.png"), fullPage: false });
+
+    // 9. Dedicated Mobile Layout Verification (390x844 iPhone)
+    const mobilePage = await context.newPage();
+    const mobileErrors = attachErrorCollectors(mobilePage);
+    await mobilePage.setViewportSize({ width: 390, height: 844 });
+    await mobilePage.goto("/studio", { waitUntil: "networkidle" });
+    await expect(mobilePage.getByTestId("guided-studio-root")).toBeVisible();
+    await expect(mobilePage.getByTestId("bouquet-konva-container")).toBeVisible();
+    await expect(mobilePage.getByTestId("guided-nav-flowers")).toBeVisible();
+
+    // Verify zero horizontal scrolling
+    const overflow = await mobilePage.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(overflow).toBe(false);
+
+    await mobilePage.screenshot({
+      path: path.join(SCRATCH_DIR, "guided-studio-mobile-390w.png"),
+      fullPage: false,
+    });
+
+    mobileErrors.assertClean();
+    await mobilePage.close();
 
     errors.assertClean();
   });

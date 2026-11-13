@@ -170,12 +170,24 @@ export class BouquetKonvaStage {
     this.fitStageToContainer();
   }
 
+  private zoomLevel: number = 1.0;
+
+  public setZoom(zoom: number): void {
+    this.zoomLevel = Math.max(0.5, Math.min(2.5, Number(zoom.toFixed(2))));
+    this.fitStageToContainer();
+  }
+
+  public getZoom(): number {
+    return this.zoomLevel;
+  }
+
   public fitStageToContainer(): void {
     if (this.destroyed) return;
     const rect = this.container.getBoundingClientRect();
     const cw = Math.max(240, rect.width);
     const ch = Math.max(280, rect.height);
-    const scale = Math.min(cw / WORLD_WIDTH, ch / WORLD_HEIGHT);
+    const baseScale = Math.min(cw / WORLD_WIDTH, ch / WORLD_HEIGHT);
+    const scale = baseScale * this.zoomLevel;
     const stageW = Math.round(WORLD_WIDTH * scale);
     const stageH = Math.round(WORLD_HEIGHT * scale);
 

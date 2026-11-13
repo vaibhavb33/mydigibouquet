@@ -46,8 +46,12 @@ export default async function StudioPage({
 }) {
   const sp = await searchParams;
   const rawMode = sp.mode?.toLowerCase();
-  const initialMode: "quick" | "studio" =
-    rawMode === "studio" || rawMode === "advanced" || Boolean(sp.stem) ? "studio" : "quick";
+  const initialMode: "guided" | "quick" | "studio" =
+    rawMode === "studio" || rawMode === "advanced"
+      ? "studio"
+      : rawMode === "quick"
+        ? "quick"
+        : "guided";
 
   return (
     <div className={`${alexBrush.variable} ${loraFont.variable}`}>
