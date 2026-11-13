@@ -8,9 +8,9 @@ import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "Virtual Flower Library — 40 Botanical Stems, Greenery & Fillers",
+  title: "Virtual Flower Library — 47 Botanical Stems, Greenery & Fillers",
   description:
-    "Explore all 40 transparent studio botanicals: roses, peonies, tilted tulips, orchids, chamomile, baby's breath, silver eucalyptus, olive branches, Monstera foliage, and pressed petals.",
+    "Explore all 47 transparent studio botanicals: roses, peonies, tilted tulips, orchids, chamomile, carnations, camellias, zinnias, magnolias, baby's breath, silver eucalyptus, olive branches, Monstera foliage, and pressed petals.",
   path: "/flowers",
   keywords: [
     "virtual flowers",

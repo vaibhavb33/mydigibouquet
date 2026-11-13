@@ -70,8 +70,7 @@ h1, h2, h3, .font-display {
 .surface-linen {
   background-color: #F4EFE6;
   background-image:
-    repeating-linear-gradient(0deg, rgba(141, 134, 119, 0.04) 0px, rgba(141, 134, 119, 0.04) 1px, transparent 1px, transparent 6px),
-    repeating-linear-gradient(90deg, rgba(141, 134, 119, 0.04) 0px, rgba(141, 134, 119, 0.04) 1px, transparent 1px, transparent 6px);
+    radial-gradient(ellipse at 50% 42%, rgba(255, 253, 248, 0.72) 0%, rgba(235, 226, 212, 0.56) 100%);
 }
 
 .surface-limewash {

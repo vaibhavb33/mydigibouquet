@@ -93,6 +93,10 @@ export const COMPOSITION_PRESET_IDS = [
   "luxury",
   "minimalist",
   "wildflower",
+  "spring-pastel",
+  "sunset",
+  "monochrome",
+  "peony-deluxe",
 ] as const;
 export type CompositionPresetId = (typeof COMPOSITION_PRESET_IDS)[number];
 
@@ -162,6 +166,13 @@ export type BotanicalMeta = {
   studioPath: string;
   exportPath: string;
   hitmaskPath: string;
+  aspectRatio?: number;
+  preferredWidth?: number;
+  preferredHeight?: number;
+  botanicalType?: string;
+  bloomStage?: string;
+  facingAngle?: string;
+  license?: string;
 };
 
 export type StemInstance = {
@@ -285,6 +296,15 @@ export type VesselRule = {
   pocketMaskPolygon: readonly [number, number][];
 };
 
+const CURVED_WRAP_POCKET_POLYGON: readonly [number, number][] = [
+  [286, 636],
+  [714, 642],
+  [656, 860],
+  [588, 1086],
+  [412, 1086],
+  [344, 860],
+];
+
 export const VESSEL_RULES: Record<VesselId, VesselRule> = {
   "wrap-blush-linen": {
     vesselId: "wrap-blush-linen",
@@ -293,15 +313,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#ECD9D4",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-natural-kraft": {
     vesselId: "wrap-natural-kraft",
@@ -310,15 +325,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#CBB08D",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-textured-weave": {
     vesselId: "wrap-textured-weave",
@@ -327,15 +337,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#DFD7C8",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-transparent-cellophane": {
     vesselId: "wrap-transparent-cellophane",
@@ -344,15 +349,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["exposed", "tucked"],
     defaultStemVisibility: "exposed",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#E8F2F2",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-floral-patterned": {
     vesselId: "wrap-floral-patterned",
@@ -361,15 +361,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#EFE2D6",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-sage-cotton": {
     vesselId: "wrap-sage-cotton",
@@ -378,15 +373,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#BAC8BA",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-midnight-charcoal": {
     vesselId: "wrap-midnight-charcoal",
@@ -395,15 +385,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#303531",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "wrap-ivory-parchment": {
     vesselId: "wrap-ivory-parchment",
@@ -412,15 +397,10 @@ export const VESSEL_RULES: Record<VesselId, VesselRule> = {
     supportsBow: true,
     allowedStemVisibility: ["tucked", "exposed"],
     defaultStemVisibility: "tucked",
-    collarY: 705,
+    collarY: 740,
     waterlineY: null,
     swatchHex: "#F4EFE4",
-    pocketMaskPolygon: [
-      [330, 680],
-      [670, 680],
-      [585, 1085],
-      [415, 1085],
-    ],
+    pocketMaskPolygon: CURVED_WRAP_POCKET_POLYGON,
   },
   "vase-clear-glass": {
     vesselId: "vase-clear-glass",

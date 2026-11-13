@@ -26,7 +26,7 @@ export const metadata: Metadata = buildPageMetadata({
   title: "Petal & Prose — Create a Personalized Digital Bouquet Online",
   titleAbsolute: true,
   description:
-    "Create a bespoke digital flower bouquet online—free. Arrange 40 realistic botanical stems with linen wraps, velvet ribbons, handwritten cards, cropped photos, and voice messages.",
+    "Create a bespoke digital flower bouquet online—free. Arrange 47 lifelike botanical stems with linen wraps, velvet ribbons, handwritten cards, cropped photos, and voice messages.",
   path: "/",
   keywords: [
     "digital bouquet",
@@ -95,8 +95,8 @@ export default function HomePage() {
             Send a Living Arrangement Crafted Stem by Stem.
           </h1>
           <p className="max-w-xl text-base leading-relaxed text-[var(--text-secondary)] sm:text-lg">
-            Compose realistic digital bouquets from 40 botanical SKUs—closed buds, half-open blooms,
-            tilted tulips, monstera leaves, and silky greenery. Style wraps and ribbons, seal a
+            Compose lifelike digital bouquets from 47 curated blooms and greenery—garden roses,
+            blush peonies, tulips, ranunculus, and silvery eucalyptus. Style linen wraps and velvet ribbons, seal a
             handwritten card with cropped keepsake photos and voice messages, and share via private link.
           </p>
           <div className="flex flex-wrap items-center gap-3 pt-1">
@@ -117,8 +117,8 @@ export default function HomePage() {
           </div>
           <dl className="grid grid-cols-3 gap-4 border-t border-[var(--border-hairline)] pt-6 text-xs text-[var(--text-secondary)]">
             <div>
-              <dt className="font-display text-2xl font-medium text-[var(--text-primary)]">40</dt>
-              <dd>Morphological stem assets</dd>
+              <dt className="font-display text-2xl font-medium text-[var(--text-primary)]">47</dt>
+              <dd>Handcrafted botanical stems</dd>
             </div>
             <div>
               <dt className="font-display text-2xl font-medium text-[var(--text-primary)]">7</dt>
@@ -245,7 +245,7 @@ export default function HomePage() {
               href="/flowers"
               className="inline-flex min-h-[40px] items-center rounded-full bg-[var(--accent-primary)] px-5 text-xs font-semibold text-white hover:bg-[var(--accent-primary-hover)]"
             >
-              Open Full 40-Stem Library &rarr;
+              Open Full 47-Stem Library &rarr;
             </Link>
           </div>
 

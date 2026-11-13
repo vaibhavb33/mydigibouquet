@@ -19,7 +19,7 @@ export async function generateMetadata({
   const baseMeta = buildPageMetadata({
     title: "Online Bouquet Maker — Interactive Floral Studio",
     description:
-      "Arrange 40 realistic botanical stems stem by stem, customize wrapping papers and velvet ribbons, personalize your card, attach cropped photos or voice messages, and share privately.",
+      "Arrange 47 realistic botanical stems stem by stem, customize wrapping papers and velvet ribbons, personalize your card, attach cropped photos or voice messages, and share privately.",
     path: "/studio",
     keywords: [
       "online bouquet maker",
@@ -32,9 +32,9 @@ export async function generateMetadata({
     ...baseMeta,
     robots: hasParams
       ? {
-          index: false,
-          follow: true,
-        }
+        index: false,
+        follow: true,
+      }
       : baseMeta.robots,
   };
 }
@@ -42,9 +42,13 @@ export async function generateMetadata({
 export default async function StudioPage({
   searchParams,
 }: {
-  searchParams: Promise<{ preset?: string; occasion?: string; stem?: string }>;
+  searchParams: Promise<{ preset?: string; occasion?: string; stem?: string; mode?: string }>;
 }) {
   const sp = await searchParams;
+  const rawMode = sp.mode?.toLowerCase();
+  const initialMode: "quick" | "studio" =
+    rawMode === "studio" || rawMode === "advanced" || Boolean(sp.stem) ? "studio" : "quick";
+
   return (
     <div className={`${alexBrush.variable} ${loraFont.variable}`}>
       <script
@@ -65,6 +69,7 @@ export default async function StudioPage({
           initialPresetSlug={sp.preset ?? null}
           initialOccasionSlug={sp.occasion ?? null}
           initialStemSlug={sp.stem ?? null}
+          initialMode={initialMode}
         />
       </Suspense>
     </div>

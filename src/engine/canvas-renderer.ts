@@ -192,8 +192,9 @@ function drawStemImage(
   ctx.scale(stem.scale * (stem.flippedX ? -1 : 1), stem.scale);
 
   if (shadowAlpha > 0) {
-    ctx.shadowColor = `rgba(31, 30, 26, ${shadowAlpha})`;
-    ctx.shadowBlur = 18;
+    // Upper-left natural studio softbox directional cast shadow for rich 3D bloom separation
+    ctx.shadowColor = `rgba(26, 22, 18, ${shadowAlpha})`;
+    ctx.shadowBlur = 19;
     ctx.shadowOffsetX = 4;
     ctx.shadowOffsetY = 9;
   }
@@ -326,10 +327,47 @@ export async function renderBouquetToContext2D(
     const meta = metaMap.get(stem.skuId);
     const img = skuImgMap.get(stem.skuId);
     if (!meta || !img) return;
-    const depthShadow = idx > backStems.length * 0.45 ? 0.14 : 0.08;
+    const progress = backStems.length <= 1 ? 0.5 : idx / (backStems.length - 1);
+    const depthShadow = 0.08 + progress * 0.14;
     drawStemImage(ctx, stem, meta, img, depthShadow);
   });
+
+  // Soft interior collar occlusion shadow right above the wrap pocket lip so blooms look nestled INSIDE the cuff
+  if (scene.presentation.vesselId !== "bare-stems" && vesselRule.vesselId !== "vase-clear-glass") {
+    const pinchShadow = ctx.createRadialGradient(
+      COLLAR_ANCHOR_X,
+      vesselRule.collarY - 25,
+      18,
+      COLLAR_ANCHOR_X,
+      vesselRule.collarY - 15,
+      175,
+    );
+    pinchShadow.addColorStop(0, "rgba(22, 18, 15, 0.28)");
+    pinchShadow.addColorStop(0.55, "rgba(22, 18, 15, 0.10)");
+    pinchShadow.addColorStop(1, "rgba(22, 18, 15, 0)");
+    ctx.fillStyle = pinchShadow;
+    ctx.fillRect(300, vesselRule.collarY - 190, 400, 210);
+  }
   ctx.restore();
+
+  // Subtle ribbon pinch indentation shadow behind the bow
+  if (bowImg) {
+    ctx.save();
+    const ribShadow = ctx.createRadialGradient(
+      COLLAR_ANCHOR_X,
+      vesselRule.collarY + 6,
+      12,
+      COLLAR_ANCHOR_X,
+      vesselRule.collarY + 8,
+      138,
+    );
+    ribShadow.addColorStop(0, "rgba(24, 18, 15, 0.24)");
+    ribShadow.addColorStop(0.65, "rgba(24, 18, 15, 0.08)");
+    ribShadow.addColorStop(1, "rgba(24, 18, 15, 0)");
+    ctx.fillStyle = ribShadow;
+    ctx.fillRect(340, vesselRule.collarY - 35, 320, 90);
+    ctx.restore();
+  }
 
   // 3D. Vessel Front Cuff / Glass Specular Highlights / Stoneware Body
   if (vesselFrontImg) {
@@ -346,7 +384,7 @@ export async function renderBouquetToContext2D(
 
   // 3F. Collar Bow / Ribbon / Wax Seal Band
   if (bowImg) {
-    const bowWorldSize = 320;
+    const bowWorldSize = 368;
     ctx.save();
     ctx.shadowColor = "rgba(25, 22, 18, 0.18)";
     ctx.shadowBlur = 14;

@@ -26,101 +26,157 @@ type PresetProfile = {
 const PRESET_PROFILES: Record<CompositionPresetId, PresetProfile> = {
   round: {
     centerX: 500,
-    centerY: 425,
-    radiusX: 185,
-    radiusY: 145,
-    tiltStrength: 0.62,
+    centerY: 418,
+    radiusX: 168,
+    radiusY: 138,
+    tiltStrength: 0.9,
     biasAngleRad: 0,
-    minClearanceFactor: 0.78,
-    scaleSpread: 0.14,
+    minClearanceFactor: 0.72,
+    scaleSpread: 0.16,
     stemFanBiasDeg: 0,
-    jitterAmp: 12,
+    jitterAmp: 10,
     asymmetryX: 0,
-    tallPeakY: 255,
+    tallPeakY: 235,
   },
   "hand-tied": {
     centerX: 500,
-    centerY: 450,
-    radiusX: 205,
-    radiusY: 152,
-    tiltStrength: 0.72,
-    biasAngleRad: 0.18,
-    minClearanceFactor: 0.76,
+    centerY: 432,
+    radiusX: 184,
+    radiusY: 146,
+    tiltStrength: 0.94,
+    biasAngleRad: 0.16,
+    minClearanceFactor: 0.7,
     scaleSpread: 0.16,
-    stemFanBiasDeg: 6,
-    jitterAmp: 14,
-    asymmetryX: 0.08,
-    tallPeakY: 270,
+    stemFanBiasDeg: 4,
+    jitterAmp: 12,
+    asymmetryX: 0.06,
+    tallPeakY: 245,
   },
   romantic: {
-    centerX: 495,
-    centerY: 435,
-    radiusX: 220,
-    radiusY: 175,
-    tiltStrength: 0.68,
-    biasAngleRad: -0.35,
-    minClearanceFactor: 0.74,
+    centerX: 496,
+    centerY: 422,
+    radiusX: 196,
+    radiusY: 160,
+    tiltStrength: 0.92,
+    biasAngleRad: -0.32,
+    minClearanceFactor: 0.68,
     scaleSpread: 0.2,
-    stemFanBiasDeg: -5,
-    jitterAmp: 18,
-    asymmetryX: -0.22,
-    tallPeakY: 235,
+    stemFanBiasDeg: -3,
+    jitterAmp: 14,
+    asymmetryX: -0.16,
+    tallPeakY: 220,
   },
   garden: {
     centerX: 500,
-    centerY: 418,
-    radiusX: 255,
-    radiusY: 192,
-    tiltStrength: 0.8,
-    biasAngleRad: 0.42,
-    minClearanceFactor: 0.86,
+    centerY: 405,
+    radiusX: 222,
+    radiusY: 176,
+    tiltStrength: 0.95,
+    biasAngleRad: 0.38,
+    minClearanceFactor: 0.78,
     scaleSpread: 0.22,
-    stemFanBiasDeg: 3,
-    jitterAmp: 26,
-    asymmetryX: 0.14,
-    tallPeakY: 205,
+    stemFanBiasDeg: 2,
+    jitterAmp: 20,
+    asymmetryX: 0.1,
+    tallPeakY: 198,
   },
   luxury: {
-    centerX: 505,
-    centerY: 410,
-    radiusX: 235,
-    radiusY: 185,
-    tiltStrength: 0.65,
+    centerX: 502,
+    centerY: 398,
+    radiusX: 205,
+    radiusY: 170,
+    tiltStrength: 0.91,
     biasAngleRad: -0.22,
-    minClearanceFactor: 0.72,
-    scaleSpread: 0.24,
-    stemFanBiasDeg: -2,
-    jitterAmp: 15,
-    asymmetryX: 0.18,
-    tallPeakY: 195,
+    minClearanceFactor: 0.68,
+    scaleSpread: 0.22,
+    stemFanBiasDeg: -1,
+    jitterAmp: 12,
+    asymmetryX: 0.14,
+    tallPeakY: 190,
   },
   minimalist: {
     centerX: 500,
-    centerY: 410,
-    radiusX: 150,
-    radiusY: 155,
-    tiltStrength: 0.55,
+    centerY: 396,
+    radiusX: 138,
+    radiusY: 144,
+    tiltStrength: 0.86,
     biasAngleRad: -0.4,
-    minClearanceFactor: 1.05,
+    minClearanceFactor: 0.98,
     scaleSpread: 0.18,
-    stemFanBiasDeg: 4,
-    jitterAmp: 10,
-    asymmetryX: -0.15,
-    tallPeakY: 225,
+    stemFanBiasDeg: 3,
+    jitterAmp: 8,
+    asymmetryX: -0.12,
+    tallPeakY: 215,
   },
   wildflower: {
     centerX: 500,
-    centerY: 405,
-    radiusX: 262,
-    radiusY: 205,
-    tiltStrength: 0.88,
-    biasAngleRad: 0.62,
-    minClearanceFactor: 0.84,
-    scaleSpread: 0.25,
+    centerY: 398,
+    radiusX: 228,
+    radiusY: 184,
+    tiltStrength: 0.96,
+    biasAngleRad: 0.58,
+    minClearanceFactor: 0.76,
+    scaleSpread: 0.24,
     stemFanBiasDeg: 0,
-    jitterAmp: 30,
-    asymmetryX: 0.06,
-    tallPeakY: 190,
+    jitterAmp: 22,
+    asymmetryX: 0.04,
+    tallPeakY: 185,
+  },
+  "spring-pastel": {
+    centerX: 500,
+    centerY: 412,
+    radiusX: 188,
+    radiusY: 152,
+    tiltStrength: 0.9,
+    biasAngleRad: 0.12,
+    minClearanceFactor: 0.74,
+    scaleSpread: 0.18,
+    stemFanBiasDeg: 1,
+    jitterAmp: 14,
+    asymmetryX: 0.05,
+    tallPeakY: 215,
+  },
+  sunset: {
+    centerX: 502,
+    centerY: 406,
+    radiusX: 212,
+    radiusY: 168,
+    tiltStrength: 0.94,
+    biasAngleRad: -0.28,
+    minClearanceFactor: 0.72,
+    scaleSpread: 0.22,
+    stemFanBiasDeg: -2,
+    jitterAmp: 16,
+    asymmetryX: -0.1,
+    tallPeakY: 200,
+  },
+  monochrome: {
+    centerX: 498,
+    centerY: 402,
+    radiusX: 175,
+    radiusY: 148,
+    tiltStrength: 0.88,
+    biasAngleRad: -0.15,
+    minClearanceFactor: 0.82,
+    scaleSpread: 0.18,
+    stemFanBiasDeg: 2,
+    jitterAmp: 10,
+    asymmetryX: -0.06,
+    tallPeakY: 210,
+  },
+  "peony-deluxe": {
+    centerX: 500,
+    centerY: 410,
+    radiusX: 204,
+    radiusY: 162,
+    tiltStrength: 0.92,
+    biasAngleRad: 0.2,
+    minClearanceFactor: 0.7,
+    scaleSpread: 0.2,
+    stemFanBiasDeg: 0,
+    jitterAmp: 12,
+    asymmetryX: 0.08,
+    tallPeakY: 205,
   },
 };
 
@@ -144,13 +200,14 @@ function computeFanRotation(
   profile: PresetProfile,
   noise01: number,
 ): number {
+  // Aim every stem vector cleanly through the spiral ribbon pinch point (COLLAR_ANCHOR_X, COLLAR_ANCHOR_Y)
   const dx = x - COLLAR_ANCHOR_X;
-  const dy = Math.max(95, COLLAR_ANCHOR_Y - y);
+  const dy = Math.max(120, COLLAR_ANCHOR_Y - y);
   const radialDeg = (Math.atan2(dx, dy) * 180) / Math.PI;
-  const microDeg = (noise01 - 0.5) * 14;
-  const rawDeg = radialDeg * profile.tiltStrength + profile.stemFanBiasDeg + microDeg;
-  const minR = meta?.defaultMinRotDeg ?? -45;
-  const maxR = meta?.defaultMaxRotDeg ?? 45;
+  const microDeg = (noise01 - 0.5) * 9;
+  const rawDeg = radialDeg * profile.tiltStrength + profile.stemFanBiasDeg * 0.4 + microDeg;
+  const minR = meta?.defaultMinRotDeg ?? -48;
+  const maxR = meta?.defaultMaxRotDeg ?? 48;
   return Number(clamp(rawDeg, minR, maxR).toFixed(1));
 }
 
@@ -209,8 +266,8 @@ function resolveCollisions(
 
     for (const s of out) {
       if (s.locked) continue;
-      s.x = clamp(s.x, 195, 805);
-      s.y = clamp(s.y, profile.tallPeakY, 685);
+      s.x = clamp(s.x, 225, 775);
+      s.y = clamp(s.y, profile.tallPeakY, 610);
     }
   }
 
@@ -281,6 +338,22 @@ export function arrangeBouquetByPreset(
       theta = -0.95 + idx * 0.58;
       rx = 75 * Math.cos(theta);
       ry = 95 * Math.sin(theta);
+    } else if (preset === "peony-deluxe") {
+      // Lush clustered dome with hero focal nestled right at center crown
+      rx = idx === 0 ? 0 : Math.cos(theta) * rx * 0.92;
+      ry = idx === 0 ? -28 : Math.sin(theta) * ry * 0.92;
+    } else if (preset === "spring-pastel") {
+      // Gentle upright cupped silhouette
+      rx += Math.sin(theta) * 16;
+      ry += Math.cos(theta) * -14;
+    } else if (preset === "sunset") {
+      // Warm outward radial energy
+      rx *= 1.08;
+      ry *= 1.04;
+    } else if (preset === "monochrome") {
+      // Architectural tiered vertical symmetry
+      rx = (idx % 2 === 0 ? 1 : -1) * (22 + idx * 28);
+      ry = -65 + idx * 26;
     }
 
     const jitterX = (n2 - 0.5) * profile.jitterAmp;
@@ -346,12 +419,12 @@ export function arrangeBouquetByPreset(
     const n1 = deterministicHash01(stem.id, idx + 11);
     const n2 = deterministicHash01(stem.id, idx + 29);
     const theta = pickLeastCrowdedAngle(stem.id, idx, true);
-    const rimDistX = profile.radiusX * (meta?.allowFrontDrape ? 1.08 : 1.04) * (0.85 + n1 * 0.22);
-    const rimDistY = profile.radiusY * (meta?.allowFrontDrape ? 0.96 : 1.0) * (0.85 + n2 * 0.2);
+    const rimDistX = profile.radiusX * (meta?.allowFrontDrape ? 1.06 : 1.02) * (0.88 + n1 * 0.18);
+    const rimDistY = profile.radiusY * (meta?.allowFrontDrape ? 0.94 : 0.98) * (0.88 + n2 * 0.18);
 
-    const x = clamp(profile.centerX + Math.cos(theta) * rimDistX, 175, 825);
-    const y = clamp(profile.centerY + Math.sin(theta) * rimDistY + (meta?.allowFrontDrape ? 18 : -15), 165, 650);
-    const scale = clamp(Number((0.92 + (n1 - 0.5) * 0.18).toFixed(2)), 0.78, 1.15);
+    const x = clamp(profile.centerX + Math.cos(theta) * rimDistX, 200, 800);
+    const y = clamp(profile.centerY + Math.sin(theta) * rimDistY - 12, 168, 565);
+    const scale = clamp(Number((0.94 + (n1 - 0.5) * 0.16).toFixed(2)), 0.8, 1.16);
 
     return {
       ...stem,
@@ -368,11 +441,11 @@ export function arrangeBouquetByPreset(
     const n1 = deterministicHash01(stem.id, idx + 41);
     const n2 = deterministicHash01(stem.id, idx + 59);
     const theta = pickLeastCrowdedAngle(stem.id + "fill", idx, idx % 2 === 0);
-    const ring = 0.66 + (idx % 3) * 0.14;
+    const ring = 0.68 + (idx % 3) * 0.14;
 
-    const x = clamp(profile.centerX + Math.cos(theta) * profile.radiusX * ring, 195, 805);
-    const y = clamp(profile.centerY + Math.sin(theta) * profile.radiusY * ring - 18, 175, 635);
-    const scale = clamp(Number((0.86 + (n1 - 0.5) * 0.18).toFixed(2)), 0.72, 1.06);
+    const x = clamp(profile.centerX + Math.cos(theta) * profile.radiusX * ring, 215, 785);
+    const y = clamp(profile.centerY + Math.sin(theta) * profile.radiusY * ring - 14, 178, 585);
+    const scale = clamp(Number((0.88 + (n1 - 0.5) * 0.16).toFixed(2)), 0.74, 1.08);
 
     return {
       ...stem,
@@ -412,17 +485,20 @@ export function arrangeBouquetByPreset(
     profile,
   );
 
-  // Preserve intuitive layer progression: foliage back -> fillers -> focals -> stemless petals
-  const roleRank = (s: StemInstance): number => {
+  // 5-Tier Botanical Depth Stacking:
+  // 0 = back greenery halo framing top & flanks -> 1 = wispy upper/back fillers ->
+  // 2 = upper/outer focals -> 3 = lush foreground collar focals & delicate clouds -> 4 = loose draping petals
+  const depthRank = (s: StemInstance): number => {
     const meta = metaMap.get(s.skuId);
     if (!meta) return 2;
     if (meta.role === "foliage") return 0;
-    if (meta.role === "filler") return 1;
-    if (meta.role === "focal") return 2;
-    return 3;
+    if (meta.role === "petal") return 4;
+    if (meta.role === "filler") return s.y > 465 ? 3 : 1;
+    // Focals ordered naturally by radial elevation: high crown blooms slightly behind lower collar focals
+    return s.y > 470 ? 3 : 2;
   };
 
-  combined.sort((a, b) => roleRank(a) - roleRank(b) || a.y - b.y);
+  combined.sort((a, b) => depthRank(a) - depthRank(b) || a.y - b.y);
   return combined.map((s, idx) => ({ ...s, zIndex: idx }));
 }
 

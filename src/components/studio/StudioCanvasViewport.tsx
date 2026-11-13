@@ -94,15 +94,14 @@ export function StudioCanvasViewport({
       {notice && (
         <div
           role="status"
-          className={`absolute top-3 left-1/2 z-20 flex max-w-[90%] -translate-x-1/2 items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-md backdrop-blur-md ${
-            notice.tone === "warning"
-              ? "border-[var(--status-warning-border)] bg-[var(--status-warning-fill)] text-[var(--status-warning-ink)]"
-              : notice.tone === "error"
-                ? "border-[var(--status-error-border)] bg-[var(--status-error-fill)] text-[var(--status-error-ink)]"
-                : notice.tone === "success"
-                  ? "border-[var(--status-success-border)] bg-[var(--status-success-fill)] text-[var(--status-success-ink)]"
-                  : "border-[var(--border-hairline)] bg-white/95 text-[var(--text-primary)]"
-          }`}
+          className={`absolute top-3 left-1/2 z-20 flex max-w-[90%] -translate-x-1/2 items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-md backdrop-blur-md ${notice.tone === "warning"
+            ? "border-[var(--status-warning-border)] bg-[var(--status-warning-fill)] text-[var(--status-warning-ink)]"
+            : notice.tone === "error"
+              ? "border-[var(--status-error-border)] bg-[var(--status-error-fill)] text-[var(--status-error-ink)]"
+              : notice.tone === "success"
+                ? "border-[var(--status-success-border)] bg-[var(--status-success-fill)] text-[var(--status-success-ink)]"
+                : "border-[var(--border-hairline)] bg-white/95 text-[var(--text-primary)]"
+            }`}
         >
           <span>{notice.text}</span>
           <button
@@ -124,6 +123,11 @@ export function StudioCanvasViewport({
           aria-label="Interactive digital bouquet composition canvas"
           className="relative flex h-full w-full max-w-[640px] items-center justify-center [&_.konvajs-content]:mx-auto"
         />
+        {!hasSelection && (
+          <p className="pointer-events-none absolute top-2.5 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full border border-[var(--border-hairline)] bg-white/85 px-3 py-1 text-[11px] text-[var(--text-secondary)] shadow-2xs backdrop-blur-xs">
+            Click any stem to move, rotate, scale &amp; layer
+          </p>
+        )}
       </div>
 
       {/* Floating Bottom Atelier Control Dock */}
@@ -156,11 +160,10 @@ export function StudioCanvasViewport({
           data-testid="toolbar-multiselect"
           aria-pressed={multiSelectMode}
           onClick={toggleMultiSelectMode}
-          className={`min-h-[36px] rounded-lg px-2.5 text-xs font-medium transition ${
-            multiSelectMode
-              ? "bg-[var(--accent-primary)] text-white"
-              : "hover:bg-[var(--bg-well)]"
-          }`}
+          className={`min-h-[36px] rounded-lg px-2.5 text-xs font-medium transition ${multiSelectMode
+            ? "bg-[var(--accent-primary)] text-white"
+            : "hover:bg-[var(--bg-well)]"
+            }`}
         >
           Multi{hasSelection && selectedIds.length > 1 ? ` (${selectedIds.length})` : ""}
         </button>
@@ -188,11 +191,10 @@ export function StudioCanvasViewport({
               data-testid="toolbar-lock"
               aria-pressed={anySelectedLocked}
               onClick={() => toggleLockStems()}
-              className={`min-h-[36px] rounded-lg px-2.5 text-xs font-medium ${
-                anySelectedLocked
-                  ? "bg-[var(--text-primary)] text-white"
-                  : "hover:bg-[var(--bg-well)]"
-              }`}
+              className={`min-h-[36px] rounded-lg px-2.5 text-xs font-medium ${anySelectedLocked
+                ? "bg-[var(--text-primary)] text-white"
+                : "hover:bg-[var(--bg-well)]"
+                }`}
             >
               {anySelectedLocked ? "Unlock" : "Lock"}
             </button>
@@ -233,7 +235,7 @@ export function StudioCanvasViewport({
           onClick={resetArrangement}
           className="min-h-[36px] rounded-lg px-2.5 text-xs font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)]"
         >
-          Reset Arrange
+          Auto-Arrange
         </button>
       </div>
     </div>

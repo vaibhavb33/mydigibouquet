@@ -8,7 +8,8 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "build:assets": "node scripts/generate-masters.mjs && node scripts/build-assets.mjs",
+    "build:assets": "node scripts/build-assets.mjs",
+    "generate:v2-masters": "node scripts/process-photo-masters.mjs && node scripts/generate-realistic-elements.mjs",
     "db:generate": "drizzle-kit generate",
     "db:push": "drizzle-kit push",
     "db:backup": "node scripts/db-backup.mjs"

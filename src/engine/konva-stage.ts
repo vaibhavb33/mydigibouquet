@@ -121,10 +121,10 @@ export class BouquetKonvaStage {
     this.frontDrapeGroup = new Konva.Group();
 
     this.bowImage = new Konva.Image({
-      x: COLLAR_ANCHOR_X - 160,
+      x: COLLAR_ANCHOR_X - 184,
       y: 550,
-      width: 320,
-      height: 320,
+      width: 368,
+      height: 368,
       image: undefined,
       listening: false,
       shadowColor: "rgba(25,22,18,0.16)",
@@ -417,10 +417,10 @@ export class BouquetKonvaStage {
       });
     }
 
-    // Load & bind collar bow
+    // Load & bind collar bow centered cleanly on new curved pinch collarY
     const bowSrc = resolveBowAssetPath(scene.presentation, "studio");
     if (bowSrc) {
-      this.bowImage.y(vesselRule.collarY - 154);
+      this.bowImage.y(vesselRule.collarY - 176);
       this.bowImage.visible(true);
       void this.loadImage(bowSrc).then((img) => {
         if (!this.destroyed && img) {
@@ -446,7 +446,7 @@ export class BouquetKonvaStage {
     this.stemClipGroup.removeChildren();
     this.frontDrapeGroup.removeChildren();
 
-    sorted.forEach((stem) => {
+    sorted.forEach((stem, idx) => {
       const meta = metaMap.get(stem.skuId);
       if (!meta) return;
 
@@ -474,6 +474,7 @@ export class BouquetKonvaStage {
       }
 
       const flipSign = stem.flippedX ? -1 : 1;
+      const progress = sorted.length <= 1 ? 0.5 : idx / (sorted.length - 1);
       node.setAttrs({
         image: node.image(),
         x: stem.x,
@@ -486,10 +487,10 @@ export class BouquetKonvaStage {
         scaleY: stem.scale,
         rotation: stem.rotationDeg,
         draggable: !stem.locked,
-        shadowColor: "rgba(31, 30, 26, 0.14)",
-        shadowBlur: 14,
-        shadowOffsetX: 3,
-        shadowOffsetY: 7,
+        shadowColor: `rgba(26, 22, 18, ${(0.08 + progress * 0.12).toFixed(2)})`,
+        shadowBlur: 18,
+        shadowOffsetX: 4,
+        shadowOffsetY: 9,
       });
 
       const isFrontDrape = isFrontDrapeStem(stem, meta, sorted.length);

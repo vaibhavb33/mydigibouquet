@@ -16,8 +16,7 @@
       "romance",
       "anniversary",
       "apology",
-      "valentines-day",
-      "congratulations"
+      "valentines-day"
     ],
     "anchorX": 0.5,
     "anchorY": 0.22,
@@ -28,7 +27,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "rose-blush-open",
@@ -49,8 +55,6 @@
       "thank-you",
       "miss-you",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day",
       "just-because"
     ],
@@ -63,7 +67,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "rose-blush-half",
@@ -84,8 +95,6 @@
       "miss-you",
       "apology",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day",
       "just-because"
     ],
@@ -98,7 +107,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -44,
-    "defaultMaxRotDeg": 44
+    "defaultMaxRotDeg": 44,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Half Open",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "rose-blush-bud",
@@ -119,8 +135,6 @@
       "sympathy",
       "birthday",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day"
     ],
     "anchorX": 0.5,
@@ -132,7 +146,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -45,
-    "defaultMaxRotDeg": 45
+    "defaultMaxRotDeg": 45,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Closed Bud",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "rose-white-open",
@@ -152,8 +173,8 @@
       "sympathy",
       "thank-you",
       "anniversary",
+      "valentines-day",
       "wedding",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -165,7 +186,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "rose-peach-open",
@@ -184,6 +212,7 @@
       "thank-you",
       "birthday",
       "get-well",
+      "valentines-day",
       "congratulations",
       "friendship",
       "just-because"
@@ -197,7 +226,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "rose-petal-blush",
@@ -217,8 +253,6 @@
       "anniversary",
       "miss-you",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day",
       "just-because"
     ],
@@ -231,7 +265,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -180,
-    "defaultMaxRotDeg": 180
+    "defaultMaxRotDeg": 180,
+    "aspectRatio": 1,
+    "preferredWidth": 165,
+    "preferredHeight": 165,
+    "botanicalType": "Angiosperm / Rosaceae / Rosa hybrida",
+    "bloomStage": "Loose Petal",
+    "facingAngle": "Flat Specimen",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "peony-blush-full",
@@ -251,8 +292,6 @@
       "anniversary",
       "birthday",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day"
     ],
     "anchorX": 0.5,
@@ -264,7 +303,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -38,
-    "defaultMaxRotDeg": 38
+    "defaultMaxRotDeg": 38,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Paeoniaceae / Paeonia lactiflora",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "peony-blush-small",
@@ -284,7 +330,6 @@
       "miss-you",
       "thank-you",
       "valentines-day",
-      "wedding",
       "mothers-day",
       "just-because"
     ],
@@ -297,7 +342,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Paeoniaceae / Paeonia lactiflora",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "peony-coral-full",
@@ -317,7 +369,6 @@
       "anniversary",
       "miss-you",
       "valentines-day",
-      "congratulations",
       "mothers-day",
       "just-because"
     ],
@@ -330,7 +381,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -38,
-    "defaultMaxRotDeg": 38
+    "defaultMaxRotDeg": 38,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Paeoniaceae / Paeonia lactiflora",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "peony-petal-blush",
@@ -349,8 +407,6 @@
       "romance",
       "anniversary",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day"
     ],
     "anchorX": 0.5,
@@ -362,7 +418,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -180,
-    "defaultMaxRotDeg": 180
+    "defaultMaxRotDeg": 180,
+    "aspectRatio": 1,
+    "preferredWidth": 165,
+    "preferredHeight": 165,
+    "botanicalType": "Angiosperm / Paeoniaceae / Paeonia lactiflora",
+    "bloomStage": "Loose Petal",
+    "facingAngle": "Flat Specimen",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "tulip-red-upright",
@@ -382,7 +445,6 @@
       "miss-you",
       "anniversary",
       "valentines-day",
-      "congratulations",
       "friendship",
       "just-because"
     ],
@@ -395,7 +457,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -38,
-    "defaultMaxRotDeg": 38
+    "defaultMaxRotDeg": 38,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Liliaceae / Tulipa gesneriana",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "tulip-red-tilted",
@@ -427,7 +496,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -36,
-    "defaultMaxRotDeg": 36
+    "defaultMaxRotDeg": 36,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Liliaceae / Tulipa gesneriana",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Three-Quarter Angled",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "tulip-yellow-tilted",
@@ -459,7 +535,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -36,
-    "defaultMaxRotDeg": 36
+    "defaultMaxRotDeg": 36,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Liliaceae / Tulipa gesneriana",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Three-Quarter Angled",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "tulip-blush-upright",
@@ -479,8 +562,7 @@
       "thank-you",
       "miss-you",
       "birthday",
-      "wedding",
-      "congratulations",
+      "valentines-day",
       "friendship",
       "mothers-day",
       "just-because"
@@ -494,7 +576,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -38,
-    "defaultMaxRotDeg": 38
+    "defaultMaxRotDeg": 38,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Liliaceae / Tulipa gesneriana",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "sunflower-front",
@@ -526,7 +615,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -35,
-    "defaultMaxRotDeg": 35
+    "defaultMaxRotDeg": 35,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Helianthus annuus",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "sunflower-angled",
@@ -556,7 +652,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -40,
-    "defaultMaxRotDeg": 40
+    "defaultMaxRotDeg": 40,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Helianthus annuus",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Three-Quarter Angled",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "lily-oriental-up",
@@ -577,6 +680,7 @@
       "apology",
       "wedding",
       "congratulations",
+      "get-well",
       "mothers-day"
     ],
     "anchorX": 0.5,
@@ -588,7 +692,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -38,
-    "defaultMaxRotDeg": 38
+    "defaultMaxRotDeg": 38,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Liliaceae / Lilium orientalis",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "lily-oriental-angled",
@@ -608,8 +719,8 @@
       "romance",
       "birthday",
       "valentines-day",
-      "wedding",
       "congratulations",
+      "get-well",
       "mothers-day"
     ],
     "anchorX": 0.5,
@@ -621,7 +732,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Liliaceae / Lilium orientalis",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Three-Quarter Angled",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "orchid-white",
@@ -642,7 +760,6 @@
       "anniversary",
       "thank-you",
       "wedding",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -654,7 +771,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -36,
-    "defaultMaxRotDeg": 36
+    "defaultMaxRotDeg": 36,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Orchidaceae / Phalaenopsis",
+    "bloomStage": "Lush Cluster",
+    "facingAngle": "Arching Spray",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "dahlia-burgundy",
@@ -674,7 +798,6 @@
       "romance",
       "thank-you",
       "valentines-day",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -686,7 +809,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -40,
-    "defaultMaxRotDeg": 40
+    "defaultMaxRotDeg": 40,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Dahlia pinnata",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "hydrangea-blue",
@@ -705,7 +835,6 @@
       "thank-you",
       "apology",
       "sympathy",
-      "friendship",
       "mothers-day",
       "just-because"
     ],
@@ -718,7 +847,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -32,
-    "defaultMaxRotDeg": 32
+    "defaultMaxRotDeg": 32,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Hydrangeaceae / Hydrangea macrophylla",
+    "bloomStage": "Lush Cluster",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "ranunculus-peach",
@@ -738,7 +874,6 @@
       "get-well",
       "thank-you",
       "romance",
-      "valentines-day",
       "congratulations",
       "friendship",
       "mothers-day",
@@ -753,7 +888,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -42,
-    "defaultMaxRotDeg": 42
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Ranunculaceae / Ranunculus asiaticus",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "anemone-blush",
@@ -773,7 +915,6 @@
       "romance",
       "sympathy",
       "valentines-day",
-      "wedding",
       "mothers-day"
     ],
     "anchorX": 0.5,
@@ -785,7 +926,14 @@
     "isRadialSymmetric": true,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -40,
-    "defaultMaxRotDeg": 40
+    "defaultMaxRotDeg": 40,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Ranunculaceae / Anemone coronaria",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "babys-breath",
@@ -805,9 +953,7 @@
       "apology",
       "get-well",
       "birthday",
-      "valentines-day",
       "wedding",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -819,7 +965,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -50,
-    "defaultMaxRotDeg": 50
+    "defaultMaxRotDeg": 50,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Caryophyllaceae / Gypsophila paniculata",
+    "bloomStage": "Lush Cluster",
+    "facingAngle": "Arching Spray",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "daisy-chamomile",
@@ -840,7 +993,6 @@
       "birthday",
       "apology",
       "wedding",
-      "congratulations",
       "friendship",
       "just-because"
     ],
@@ -853,7 +1005,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -48,
-    "defaultMaxRotDeg": 48
+    "defaultMaxRotDeg": 48,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Matricaria chamomilla",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "lavender",
@@ -873,7 +1032,6 @@
       "miss-you",
       "thank-you",
       "get-well",
-      "friendship",
       "mothers-day",
       "just-because"
     ],
@@ -886,7 +1044,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -45,
-    "defaultMaxRotDeg": 45
+    "defaultMaxRotDeg": 45,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Lamiaceae / Lavandula angustifolia",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "waxflower",
@@ -906,8 +1071,6 @@
       "miss-you",
       "romance",
       "valentines-day",
-      "wedding",
-      "congratulations",
       "mothers-day",
       "just-because"
     ],
@@ -920,7 +1083,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -50,
-    "defaultMaxRotDeg": 50
+    "defaultMaxRotDeg": 50,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Myrtaceae / Chamelaucium uncinatum",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "lotus",
@@ -940,7 +1110,6 @@
       "sympathy",
       "anniversary",
       "wedding",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -952,7 +1121,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -36,
-    "defaultMaxRotDeg": 36
+    "defaultMaxRotDeg": 36,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Nelumbonaceae / Nelumbo nucifera",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "meadow-aster",
@@ -971,8 +1147,6 @@
       "thank-you",
       "birthday",
       "miss-you",
-      "congratulations",
-      "friendship",
       "mothers-day",
       "just-because"
     ],
@@ -985,7 +1159,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -48,
-    "defaultMaxRotDeg": 48
+    "defaultMaxRotDeg": 48,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Symphyotrichum",
+    "bloomStage": "Lush Cluster",
+    "facingAngle": "Arching Spray",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "eucalyptus-silver",
@@ -1007,8 +1188,6 @@
       "thank-you",
       "sympathy",
       "miss-you",
-      "valentines-day",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1020,7 +1199,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -55,
-    "defaultMaxRotDeg": 55
+    "defaultMaxRotDeg": 55,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Myrtaceae / Eucalyptus",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "eucalyptus-seeded",
@@ -1039,8 +1225,6 @@
       "romance",
       "apology",
       "anniversary",
-      "valentines-day",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1052,7 +1236,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": true,
     "defaultMinRotDeg": -58,
-    "defaultMaxRotDeg": 58
+    "defaultMaxRotDeg": 58,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Myrtaceae / Eucalyptus",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Arching Spray",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "fern-boston",
@@ -1071,7 +1262,6 @@
       "birthday",
       "get-well",
       "thank-you",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1083,7 +1273,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": true,
     "defaultMinRotDeg": -60,
-    "defaultMaxRotDeg": 60
+    "defaultMaxRotDeg": 60,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Pteridophyta / Polypodiopsida",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "olive-branch",
@@ -1104,7 +1301,6 @@
       "birthday",
       "miss-you",
       "wedding",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1116,7 +1312,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -52,
-    "defaultMaxRotDeg": 52
+    "defaultMaxRotDeg": 52,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Oleaceae / Olea europaea",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "ruscus-italian",
@@ -1135,9 +1338,6 @@
       "romance",
       "anniversary",
       "apology",
-      "valentines-day",
-      "wedding",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1149,7 +1349,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": true,
     "defaultMinRotDeg": -60,
-    "defaultMaxRotDeg": 60
+    "defaultMaxRotDeg": 60,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asparagaceae / Ruscus hypoglossum",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "willow-sprig",
@@ -1168,7 +1375,6 @@
       "thank-you",
       "anniversary",
       "miss-you",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1180,7 +1386,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": true,
     "defaultMinRotDeg": -60,
-    "defaultMaxRotDeg": 60
+    "defaultMaxRotDeg": 60,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Salicaceae / Salix babylonica",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "pine-sprig",
@@ -1198,7 +1411,6 @@
     "occasionTags": [
       "anniversary",
       "sympathy",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1210,7 +1422,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -50,
-    "defaultMaxRotDeg": 50
+    "defaultMaxRotDeg": 50,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Gymnosperm / Pinaceae / Pinus sylvestris",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "dusty-miller",
@@ -1229,7 +1448,6 @@
       "apology",
       "sympathy",
       "romance",
-      "valentines-day",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1241,7 +1459,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -50,
-    "defaultMaxRotDeg": 50
+    "defaultMaxRotDeg": 50,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Jacobaea maritima",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "monstera-deliciosa",
@@ -1261,8 +1486,6 @@
       "thank-you",
       "romance",
       "anniversary",
-      "valentines-day",
-      "congratulations",
       "just-because"
     ],
     "anchorX": 0.5,
@@ -1274,7 +1497,14 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -45,
-    "defaultMaxRotDeg": 45
+    "defaultMaxRotDeg": 45,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Araceae / Monstera deliciosa",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   },
   {
     "skuId": "autumn-oak-foliage",
@@ -1295,6 +1525,7 @@
       "miss-you",
       "anniversary",
       "congratulations",
+      "get-well",
       "friendship",
       "just-because"
     ],
@@ -1307,6 +1538,280 @@
     "isRadialSymmetric": false,
     "allowFrontDrape": false,
     "defaultMinRotDeg": -52,
-    "defaultMaxRotDeg": 52
+    "defaultMaxRotDeg": 52,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Fagaceae / Quercus rubra",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "carnation-blush",
+    "familyId": "carnation",
+    "speciesSlug": "carnation",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Blush Carnation",
+    "name": "Ruffled Heirloom Carnation",
+    "variantLabel": "Full Bloom",
+    "role": "focal",
+    "colorFamily": "blush",
+    "colorHex": "#EAA8B2",
+    "meaningShort": "Deep admiration & motherly love",
+    "meaningFull": "Frilled, ruffled crepe-pink petals with jagged scalloped margins, expressing enduring devotion and pure admiration.",
+    "occasionTags": [
+      "birthday",
+      "thank-you",
+      "romance",
+      "sympathy",
+      "valentines-day",
+      "mothers-day",
+      "just-because"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 62,
+    "stemLengthWorld": 575,
+    "isRadialSymmetric": true,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -40,
+    "defaultMaxRotDeg": 40,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Caryophyllaceae / Dianthus caryophyllus",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "camellia-white",
+    "familyId": "camellia",
+    "speciesSlug": "camellia",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Porcelain Camellia",
+    "name": "Porcelain White Camellia",
+    "variantLabel": "Formal Double Bloom",
+    "role": "focal",
+    "colorFamily": "ivory",
+    "colorHex": "#F4F3EE",
+    "meaningShort": "Perfection, grace & faithful longing",
+    "meaningFull": "Symmetrically spiraled formal double petals of pristine ivory with glossy deep-green leaves.",
+    "occasionTags": [
+      "wedding",
+      "anniversary",
+      "sympathy",
+      "congratulations"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 64,
+    "stemLengthWorld": 575,
+    "isRadialSymmetric": true,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -38,
+    "defaultMaxRotDeg": 38,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Theaceae / Camellia japonica",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "zinnia-amber",
+    "familyId": "zinnia",
+    "speciesSlug": "zinnia",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Golden Amber Zinnia",
+    "name": "Golden Amber Zinnia",
+    "variantLabel": "Double Dahlia Bloom",
+    "role": "focal",
+    "colorFamily": "amber",
+    "colorHex": "#DB7A2B",
+    "meaningShort": "Lasting affection & radiant joy",
+    "meaningFull": "Vibrant warm terracotta and amber-gold layered rosette with central star florets, bringing lively sunlit energy.",
+    "occasionTags": [
+      "birthday",
+      "congratulations",
+      "friendship",
+      "thank-you",
+      "get-well",
+      "just-because"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 65,
+    "stemLengthWorld": 575,
+    "isRadialSymmetric": true,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -42,
+    "defaultMaxRotDeg": 42,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Asteraceae / Zinnia elegans",
+    "bloomStage": "Full Bloom",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "magnolia-ivory",
+    "familyId": "magnolia",
+    "speciesSlug": "magnolia",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Southern Magnolia",
+    "name": "Southern Ivory Magnolia",
+    "variantLabel": "Half-Open Cup",
+    "role": "focal",
+    "colorFamily": "ivory",
+    "colorHex": "#F7F4EB",
+    "meaningShort": "Dignity, nobility & steadfast beauty",
+    "meaningFull": "Sculpted waxy cream goblet blossom revealing a delicate lemon throat framed by thick glossy leathery leaves.",
+    "occasionTags": [
+      "wedding",
+      "anniversary",
+      "sympathy",
+      "congratulations"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 68,
+    "stemLengthWorld": 575,
+    "isRadialSymmetric": false,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -35,
+    "defaultMaxRotDeg": 35,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Magnoliaceae / Magnolia grandiflora",
+    "bloomStage": "Half Open",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "leatherleaf-fern",
+    "familyId": "fern",
+    "speciesSlug": "fern",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Leatherleaf Frond",
+    "name": "Leatherleaf Fern Frond",
+    "variantLabel": "Pinnate Backing Frond",
+    "role": "foliage",
+    "colorFamily": "sage",
+    "colorHex": "#3B593E",
+    "meaningShort": "Fascinating charm & sincerity",
+    "meaningFull": "Stiff triangular pinnate frond with lustrous deep-green textured pinnae providing classic architectural florist backing.",
+    "occasionTags": [
+      "sympathy",
+      "wedding",
+      "congratulations",
+      "thank-you",
+      "just-because"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 72,
+    "stemLengthWorld": 585,
+    "isRadialSymmetric": false,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -48,
+    "defaultMaxRotDeg": 48,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Pteridophyta / Polypodiopsida",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "salal-lemon-leaf",
+    "familyId": "salal",
+    "speciesSlug": "salal",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Salal Lemon Leaf",
+    "name": "Salal Lemon Leaf Foliage",
+    "variantLabel": "Branching Foliage",
+    "role": "foliage",
+    "colorFamily": "sage",
+    "colorHex": "#4A6749",
+    "meaningShort": "Zest for life & warm embrace",
+    "meaningFull": "Sturdy branch of ovate deep emerald leathery leaves with rich natural vein relief, ideal for mid-tier bouquet fullness.",
+    "occasionTags": [
+      "birthday",
+      "friendship",
+      "thank-you",
+      "congratulations",
+      "just-because"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 62,
+    "stemLengthWorld": 585,
+    "isRadialSymmetric": false,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -45,
+    "defaultMaxRotDeg": 45,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Ericaceae / Gaultheria shallon",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
+  },
+  {
+    "skuId": "pittosporum-variegated",
+    "familyId": "pittosporum",
+    "speciesSlug": "pittosporum",
+    "hasSpeciesPage": false,
+    "colorAnchor": "Variegated Pittosporum",
+    "name": "Variegated Pittosporum",
+    "variantLabel": "Cream-Edged Sprig",
+    "role": "foliage",
+    "colorFamily": "sage",
+    "colorHex": "#8E9F8B",
+    "meaningShort": "Protection, harmony & refined taste",
+    "meaningFull": "Dense branch of undulating soft sage leaves trimmed in creamy parchment-white margins, catching gentle light.",
+    "occasionTags": [
+      "wedding",
+      "friendship",
+      "romance",
+      "congratulations",
+      "just-because"
+    ],
+    "anchorX": 0.5,
+    "anchorY": 0.22,
+    "naturalWidth": 450,
+    "naturalHeight": 750,
+    "headRadiusWorld": 60,
+    "stemLengthWorld": 585,
+    "isRadialSymmetric": false,
+    "allowFrontDrape": false,
+    "defaultMinRotDeg": -46,
+    "defaultMaxRotDeg": 46,
+    "aspectRatio": 0.6,
+    "preferredWidth": 450,
+    "preferredHeight": 750,
+    "botanicalType": "Angiosperm / Pittosporaceae / Pittosporum tobira",
+    "bloomStage": "Mature Foliage",
+    "facingAngle": "Front-Facing",
+    "license": "Petal & Prose Proprietary Photographic Studio License — 100% Bespoke Studio Asset"
   }
 ]

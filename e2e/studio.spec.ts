@@ -54,10 +54,98 @@ function attachErrorCollectors(page: import("@playwright/test").Page) {
 }
 
 test.describe("Petal & Prose Complete E2E Verification", () => {
+  test("Mode A Quick Create (default on /studio): 5-step guided flow, card, PNG/share, 360px & mode switching", async ({
+    page,
+    context,
+  }) => {
+    fs.mkdirSync(SCRATCH_DIR, { recursive: true });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const errors = attachErrorCollectors(page);
+
+    await page.goto("/studio", { waitUntil: "networkidle" });
+    await expect(page.getByTestId("quick-create-mode")).toBeVisible();
+    await expect(page.getByTestId("mode-quick-btn")).toHaveAttribute("aria-pressed", "true");
+    await page.waitForFunction(() => document.querySelectorAll("canvas").length > 0);
+
+    // Step 1: Choose Occasion
+    await expect(page.getByTestId("quick-step-1")).toHaveAttribute("aria-current", "step");
+    await page.getByTestId("quick-occasion-birthday").click();
+    await expect(page.getByTestId("quick-stem-count")).toContainText("11 stems");
+    await page.getByTestId("quick-next-btn").click();
+
+    // Step 2: Choose Bouquet Style
+    await expect(page.getByTestId("quick-step-2")).toHaveAttribute("aria-current", "step");
+    await page.getByTestId("quick-preset-romantic").click();
+    await page.getByTestId("quick-vessel-wrap-blush-linen").click();
+    await page.getByTestId("quick-surface-travertine").click();
+    await page.getByTestId("quick-next-btn").click();
+
+    // Step 3: Customize Flowers
+    await expect(page.getByTestId("quick-step-3")).toHaveAttribute("aria-current", "step");
+    await page.getByTestId("quick-add-stem-peony-blush-full").click();
+    await expect(page.getByTestId("quick-stem-count")).toContainText("12 stems");
+    await page.getByTestId("quick-remove-stem-peony-blush-full").click();
+    await expect(page.getByTestId("quick-stem-count")).toContainText("11 stems");
+    await page.getByTestId("quick-shuffle-btn").click();
+    await page.screenshot({ path: path.join(SCRATCH_DIR, "quick-create-desktop.png"), fullPage: false });
+
+    // Switch seamlessly to Advanced Studio and back, preserving all edits
+    await page.getByTestId("mode-studio-btn").click();
+    await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
+    await expect(page.getByTestId("mode-studio-btn")).toHaveAttribute("aria-pressed", "true");
+    await page.getByTestId("mode-quick-btn").click();
+    await expect(page.getByTestId("quick-create-mode")).toBeVisible();
+
+    // Step 4: Personalize Card
+    await page.getByTestId("quick-step-4").click();
+    await expect(page.getByTestId("quick-step-4")).toHaveAttribute("aria-current", "step");
+    await page.getByPlaceholder("e.g. Clara").fill("Maya");
+    await page.getByPlaceholder("e.g. Theo").fill("Dev");
+    await page.getByPlaceholder("Write a heartfelt message…").fill("Wishing you sunlit mornings and warm blooms!");
+    await page.getByTestId("quick-next-btn").click();
+
+    // Step 5: Preview & Share + PNG export + Live link unboxing
+    await expect(page.getByTestId("quick-step-5")).toHaveAttribute("aria-current", "step");
+    await expect(page.getByTestId("step5-final-preview")).toBeVisible();
+    await page.getByTestId("preview-reveal-btn").click();
+    await expect(page.getByTestId("preview-wax-seal-btn")).toBeVisible();
+    await page.getByTestId("preview-wax-seal-btn").click();
+
+    const [pngDownload] = await Promise.all([
+      page.waitForEvent("download"),
+      page.getByTestId("export-download-btn").click(),
+    ]);
+    expect(pngDownload.suggestedFilename()).toMatch(/\.png$/i);
+
+    await page.getByTestId("publish-share-btn").click();
+    await expect(page.getByTestId("share-result-box")).toBeVisible();
+
+    // Mobile 360px Quick Create check + screenshot
+    const mobileQuick = await context.newPage();
+    const mobileErrors = attachErrorCollectors(mobileQuick);
+    await mobileQuick.setViewportSize({ width: 360, height: 800 });
+    await mobileQuick.goto("/studio", { waitUntil: "networkidle" });
+    await expect(mobileQuick.getByTestId("quick-create-mode")).toBeVisible();
+    await mobileQuick.waitForTimeout(300);
+    const overflow = await mobileQuick.evaluate(
+      () => document.documentElement.scrollWidth > window.innerWidth + 1,
+    );
+    expect(overflow).toBe(false);
+    await mobileQuick.screenshot({
+      path: path.join(SCRATCH_DIR, "quick-create-360w.png"),
+      fullPage: false,
+    });
+    mobileErrors.assertClean();
+    await mobileQuick.close();
+
+    errors.assertClean();
+  });
+
   test("Desktop 1440x900: routes, studio editing, variations, lock, preset, export PNG & live share unboxing", async ({
     page,
     request,
   }) => {
+    test.setTimeout(90_000);
     fs.mkdirSync(SCRATCH_DIR, { recursive: true });
     await page.setViewportSize({ width: 1440, height: 900 });
     const errors = attachErrorCollectors(page);
@@ -67,7 +155,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     expect(health.status()).toBe(200);
     const healthJson = (await health.json()) as { ok: boolean; catalogCount: number };
     expect(healthJson.ok).toBe(true);
-    expect(healthJson.catalogCount).toBe(40);
+    expect(healthJson.catalogCount).toBe(47);
 
     const ogRes = await request.get("/api/og/preset-classic-romance");
     expect(ogRes.status()).toBe(200);
@@ -89,8 +177,8 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
       expect(r?.status()).toBe(200);
     }
 
-    // 3. Studio interactive editing workflow
-    await page.goto("/studio?preset=classic-romance", { waitUntil: "networkidle" });
+    // 3. Studio interactive editing workflow (Mode B Advanced Studio)
+    await page.goto("/studio?mode=studio&preset=classic-romance", { waitUntil: "networkidle" });
     await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
     await page.waitForTimeout(500);
 
@@ -98,17 +186,17 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     expect(canvasCount).toBeGreaterThanOrEqual(3);
 
     const counterBefore = await page.locator('[data-testid="stem-counter"]').innerText();
-    expect(counterBefore).toContain("10 / 18 stems");
+    expect(counterBefore).toContain("12 / 18 stems");
 
     // Add Sunflower stem from Botanical Library
     await page.getByTestId("add-stem-sunflower-front").click();
-    await expect(page.getByTestId("stem-counter")).toContainText("11 / 18 stems");
+    await expect(page.getByTestId("stem-counter")).toContainText("13 / 18 stems");
 
     // Verify Undo & Redo cleanly
     await page.getByTestId("toolbar-undo").click();
-    await expect(page.getByTestId("stem-counter")).toContainText("10 / 18 stems");
+    await expect(page.getByTestId("stem-counter")).toContainText("12 / 18 stems");
     await page.getByTestId("toolbar-redo").click();
-    await expect(page.getByTestId("stem-counter")).toContainText("11 / 18 stems");
+    await expect(page.getByTestId("stem-counter")).toContainText("13 / 18 stems");
 
     // Inspect tab: select newly added Sunflower or layer item, verify Inspector + Lock + Multi-select
     await page.getByTestId("right-tab-inspect").click();
@@ -183,7 +271,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
   }) => {
     const errors = attachErrorCollectors(page);
     await page.setViewportSize({ width: 1280, height: 800 });
-    await page.goto("/studio");
+    await page.goto("/studio?mode=studio");
     await expect(page.getByTestId("bouquet-konva-container")).toBeVisible();
     await expect(page.getByTestId("workflow-step-1")).toHaveAttribute("aria-current", "step");
 
@@ -329,7 +417,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     const mobilePage = await context.newPage();
     const mobileErrors = attachErrorCollectors(mobilePage);
     await mobilePage.setViewportSize({ width: 375, height: 812 });
-    await mobilePage.goto("/studio");
+    await mobilePage.goto("/studio?mode=studio");
     await expect(mobilePage.getByTestId("workflow-step-1")).toBeVisible();
     await expect(mobilePage.getByTestId("mobile-nav-library")).toBeVisible();
     await mobilePage.getByTestId("mobile-nav-library").click();
@@ -356,7 +444,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     await page.setViewportSize({ width: 375, height: 812 });
     const errors = attachErrorCollectors(page);
 
-    await page.goto("/studio", { waitUntil: "networkidle" });
+    await page.goto("/studio?mode=studio", { waitUntil: "networkidle" });
     await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
     await page.waitForTimeout(450);
 
@@ -385,7 +473,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const errors = attachErrorCollectors(page);
 
-    await page.goto("/studio", { waitUntil: "networkidle" });
+    await page.goto("/studio?mode=studio", { waitUntil: "networkidle" });
     await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
 
     // Feature 2: Occasion Templates (11 core occasions + Full vs Wrap & Card Only)
@@ -512,7 +600,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     await page.setViewportSize({ width: 1440, height: 900 });
     const errors = attachErrorCollectors(page);
 
-    await page.goto("/studio", { waitUntil: "networkidle" });
+    await page.goto("/studio?mode=studio", { waitUntil: "networkidle" });
     await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
 
     // Feature 8: AI Bouquet Assistant applies real editable stems
@@ -548,7 +636,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     await page.getByTestId("close-projects-drawer").click();
 
     // Start fresh & reload Studio, then reopen original project from DB
-    await page.goto("/studio", { waitUntil: "networkidle" });
+    await page.goto("/studio?mode=studio", { waitUntil: "networkidle" });
     await page.getByTestId("open-projects-btn").click();
     await expect(page.getByTestId(`open-project-${projectId}`)).toBeVisible();
     await page.getByTestId(`open-project-${projectId}`).click();
@@ -616,7 +704,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
 
     await page.goto("/studio?stem=peony-blush-full", { waitUntil: "networkidle" });
     await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
-    await expect(page.getByTestId("stem-counter")).toContainText("11 / 18 stems");
+    await expect(page.getByTestId("stem-counter")).toContainText("13 / 18 stems");
 
     // 3. Visit all 12 site pages cleanly with status 200
     for (const route of [
@@ -690,9 +778,11 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
       const vpErrors = attachErrorCollectors(vpPage);
       await vpPage.setViewportSize({ width: vp.width, height: vp.height });
 
-      for (const route of ["/", "/flowers", "/occasions", "/blog", "/contact", "/studio"]) {
+      for (const route of ["/", "/flowers", "/occasions", "/blog", "/contact", "/studio", "/studio?mode=studio"]) {
         await vpPage.goto(route, { waitUntil: "load" });
         if (route === "/studio") {
+          await vpPage.waitForSelector('[data-testid="quick-create-mode"] canvas');
+        } else if (route === "/studio?mode=studio") {
           await vpPage.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
         }
         await vpPage.waitForTimeout(200);
@@ -729,7 +819,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
       }
 
       if (vp.width === 360) {
-        await vpPage.goto("/studio", { waitUntil: "networkidle" });
+        await vpPage.goto("/studio?mode=studio", { waitUntil: "networkidle" });
         await vpPage.waitForTimeout(250);
         await vpPage.screenshot({
           path: path.join(SCRATCH_DIR, "studio-360w.png"),
@@ -824,7 +914,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
 
     // 5. Parameterized routes force parameter-stripped canonical + noindex, follow
     await page.goto("/studio?preset=classic-romance", { waitUntil: "domcontentloaded" });
-    await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
+    await page.waitForSelector('[data-testid="quick-create-mode"] canvas');
     const studioParamMeta = await page.evaluate(() => ({
       canonical: document.querySelector('link[rel="canonical"]')?.getAttribute("href") ?? "",
       robots: document.querySelector('meta[name="robots"]')?.getAttribute("content") ?? "",
@@ -849,7 +939,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     await expect(page.getByTestId("flower-search-input")).toHaveValue("peony");
 
     // 7. Privacy-scoped shared bouquet: hideNamesInPreview + private noindex + excluded from /gallery
-    await page.goto("/studio", { waitUntil: "load" });
+    await page.goto("/studio?mode=studio", { waitUntil: "load" });
     await page.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
     await page.getByTestId("workflow-step-4").click();
     await page.getByPlaceholder("e.g. Clara").fill("SecretRecipient");
@@ -905,7 +995,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     };
     expect(healthJson.ok).toBe(true);
     expect(healthJson.status).toBe("healthy");
-    expect(healthJson.catalogCount).toBe(40);
+    expect(healthJson.catalogCount).toBe(47);
     expect(healthJson.storageMode).toBe("local-sqlite");
 
     // 2. Production CSP strips unsafe-eval & static assets carry immutable caching
@@ -1042,7 +1132,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
       expect(homeLoadMs).toBeLessThan(15000);
 
       const studioStart = Date.now();
-      await p.goto("/studio", { waitUntil: "load" });
+      await p.goto("/studio?mode=studio", { waitUntil: "load" });
       await p.waitForSelector('[data-testid="bouquet-konva-container"] canvas');
       const studioReadyMs = Date.now() - studioStart;
 

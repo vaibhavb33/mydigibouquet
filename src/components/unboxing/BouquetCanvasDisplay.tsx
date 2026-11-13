@@ -19,7 +19,7 @@ export function BouquetCanvasDisplay({
   includeColophon?: boolean;
 }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
-  const [rendered, setRendered] = useState(false);
+  const [hasRenderedOnce, setHasRenderedOnce] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -28,9 +28,14 @@ export function BouquetCanvasDisplay({
     if (!ctx) return;
 
     let cancelled = false;
-    setRendered(false);
     const store = createBrowserAssetStore();
-    void renderBouquetToContext2D(ctx, width, height, scene, CATALOG_META_MAP, store, {
+    const offscreen = document.createElement("canvas");
+    offscreen.width = width;
+    offscreen.height = height;
+    const offCtx = offscreen.getContext("2d");
+    if (!offCtx) return;
+
+    void renderBouquetToContext2D(offCtx, width, height, scene, CATALOG_META_MAP, store, {
       aspect: "portrait",
       mimeType: "image/png",
       includeColophon,
@@ -38,7 +43,9 @@ export function BouquetCanvasDisplay({
       useExportLod: false,
     }).then(() => {
       if (!cancelled) {
-        setRendered(true);
+        ctx.clearRect(0, 0, width, height);
+        ctx.drawImage(offscreen, 0, 0, width, height);
+        setHasRenderedOnce(true);
       }
     });
 
@@ -49,7 +56,7 @@ export function BouquetCanvasDisplay({
 
   return (
     <div className="relative h-full w-full min-w-0 overflow-hidden">
-      {!rendered && (
+      {!hasRenderedOnce && (
         <div
           aria-hidden="true"
           data-testid="bouquet-skeleton"
@@ -64,7 +71,7 @@ export function BouquetCanvasDisplay({
         width={width}
         height={height}
         aria-label="Rendered digital bouquet arrangement"
-        className={`block h-full w-full object-contain transition-opacity duration-300 ${rendered ? "opacity-100" : "opacity-0"} ${className}`}
+        className={`block h-full w-full object-contain transition-opacity duration-300 ${hasRenderedOnce ? "opacity-100" : "opacity-0"} ${className}`}
       />
     </div>
   );

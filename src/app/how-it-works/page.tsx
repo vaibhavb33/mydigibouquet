@@ -29,7 +29,7 @@ const STUDIO_CAPABILITIES = [
   },
   {
     title: "AI Florist (Fully Editable)",
-    body: "Describe the recipient or mood in Step 3. Our florist engine interprets your prompt, chooses authentic botanical SKUs from the 40-stem library, and inserts real editable Konva nodes—never static flat images.",
+    body: "Describe the recipient or mood anytime. Our AI Florist interprets your prompt, chooses matching blooms from the 47-stem studio library, and inserts real editable stems—never static flat images.",
   },
   {
     title: "Studio Wrapping & Ribbon Finishing",

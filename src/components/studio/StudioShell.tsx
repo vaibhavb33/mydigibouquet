@@ -7,24 +7,27 @@ import { AiAssistantDrawer } from "./AiAssistantDrawer";
 import { BotanicalLibraryPanel } from "./BotanicalLibraryPanel";
 import { FinalSharePreviewStage } from "./FinalSharePreviewStage";
 import { InspectorAndFinishingPanel, type RightPanelTab } from "./InspectorAndFinishingPanel";
+import { QuickCreateFlow } from "./QuickCreateFlow";
 import { SavedProjectsDrawer } from "./SavedProjectsDrawer";
 import { StudioCanvasViewport } from "./StudioCanvasViewport";
 import { trackPrivacySafeEvent } from "@/lib/analytics";
 
 export type StudioWorkflowStep = 1 | 2 | 3 | 4 | 5;
+export type StudioMode = "quick" | "studio";
 type MobileDrawerMode = "none" | "library" | "inspect" | "finish" | "card" | "share";
 
 const WORKFLOW_STEPS: ReadonlyArray<{
   step: StudioWorkflowStep;
+  mobileLabel: string;
   shortLabel: string;
   label: string;
 }> = [
-    { step: 1, shortLabel: "1. Flowers", label: "1. Select Flowers" },
-    { step: 2, shortLabel: "2. Greens", label: "2. Select Greenery" },
-    { step: 3, shortLabel: "3. Arrange", label: "3. Arrange & Wrap" },
-    { step: 4, shortLabel: "4. Card", label: "4. Personalize Card" },
-    { step: 5, shortLabel: "5. Share", label: "5. Share Bouquet" },
-  ];
+  { step: 1, mobileLabel: "Flowers", shortLabel: "1. Flowers", label: "1. Select Flowers" },
+  { step: 2, mobileLabel: "Greens", shortLabel: "2. Greens", label: "2. Select Greenery" },
+  { step: 3, mobileLabel: "Arrange", shortLabel: "3. Arrange", label: "3. Arrange & Wrap" },
+  { step: 4, mobileLabel: "Card", shortLabel: "4. Card", label: "4. Personalize Card" },
+  { step: 5, mobileLabel: "Share", shortLabel: "5. Share", label: "5. Share Bouquet" },
+];
 
 function useIsDesktopLg(): boolean {
   const [isDesktop, setIsDesktop] = useState(true);
@@ -76,11 +79,13 @@ function StudioKeyboardBridge() {
   return null;
 }
 
-function StudioInnerLayout() {
+function StudioInnerLayout({ initialMode = "quick" }: { initialMode?: StudioMode }) {
   const { scene, draftSavedAt } = useStudioScene();
   const isDesktop = useIsDesktopLg();
-  const [activeStep, setActiveStep] = useState<StudioWorkflowStep>(1);
+  const [studioMode, setStudioMode] = useState<StudioMode>(initialMode);
+  const [activeStep, setActiveStep] = useState<StudioWorkflowStep>(initialMode === "studio" ? 1 : 3);
   const [rightTab, setRightTab] = useState<RightPanelTab>("finish");
+  const [leftCatalogOpen, setLeftCatalogOpen] = useState(true);
   const [mobileDrawer, setMobileDrawer] = useState<MobileDrawerMode>("none");
   const [aiOpen, setAiOpen] = useState(false);
   const [projectsOpen, setProjectsOpen] = useState(false);
@@ -113,22 +118,61 @@ function StudioInnerLayout() {
     }
   };
 
+  const switchToAdvancedStudio = (targetStep: StudioWorkflowStep = 3) => {
+    setStudioMode("studio");
+    handleStepSelect(targetStep, false);
+  };
+
   return (
     <div className="flex h-[100dvh] w-full flex-col overflow-hidden bg-[var(--bg-canvas)] text-[var(--text-primary)]">
       <StudioKeyboardBridge />
 
       {/* Top Atelier Header */}
-      <header className="flex h-12 shrink-0 items-center justify-between gap-1.5 border-b border-[var(--border-hairline)] bg-[var(--bg-surface)] px-2 sm:gap-2 sm:px-4 md:px-5">
-        <div className="flex min-w-0 items-center gap-2">
+      <header className="flex min-h-[54px] shrink-0 items-center justify-between gap-2 border-b border-[var(--border-hairline)] bg-[var(--bg-surface)] px-2.5 sm:px-4 md:px-5">
+        <div className="flex min-w-0 items-center gap-2 sm:gap-3">
           <Link
             href="/"
             className="truncate font-display text-base font-semibold tracking-tight text-[var(--text-primary)] hover:text-[var(--accent-primary)] sm:text-lg md:text-xl"
           >
             Petal &amp; Prose
           </Link>
-          <span className="hidden shrink-0 rounded-full bg-[var(--bg-well)] px-2.5 py-0.5 text-xs font-medium text-[var(--text-secondary)] lg:inline-block">
-            Atelier Studio
-          </span>
+
+          {/* Dual-Mode Switcher: Quick Create vs Advanced Studio */}
+          <div
+            role="group"
+            aria-label="Creation mode"
+            className="inline-flex shrink-0 items-center rounded-full border border-[var(--border-hairline)] bg-[var(--bg-well)]/75 p-0.5"
+          >
+            <button
+              type="button"
+              data-testid="mode-quick-btn"
+              aria-pressed={studioMode === "quick"}
+              onClick={() => setStudioMode("quick")}
+              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${
+                studioMode === "quick"
+                  ? "bg-[var(--text-primary)] text-white shadow-2xs"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              <span className="sm:hidden">Quick</span>
+              <span className="hidden sm:inline">Quick Create</span>
+            </button>
+            <button
+              type="button"
+              data-testid="mode-studio-btn"
+              aria-pressed={studioMode === "studio"}
+              onClick={() => switchToAdvancedStudio(studioMode === "quick" ? 3 : activeStep)}
+              className={`min-h-[30px] rounded-full px-2.5 text-[11px] font-semibold transition sm:px-3 sm:text-xs ${
+                studioMode === "studio"
+                  ? "bg-[var(--text-primary)] text-white shadow-2xs"
+                  : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              }`}
+            >
+              <span className="sm:hidden">Studio</span>
+              <span className="hidden sm:inline">Advanced Studio</span>
+            </button>
+          </div>
+
           {draftSavedAt && (
             <span
               data-testid="draft-saved-badge"
@@ -140,7 +184,7 @@ function StudioInnerLayout() {
           )}
         </div>
 
-        <nav className="flex shrink-0 items-center gap-1.5 sm:gap-2 md:gap-3" aria-label="Studio navigation">
+        <nav className="flex shrink-0 items-center gap-1.5 sm:gap-2 md:gap-2.5" aria-label="Studio navigation">
           <Link
             href="/flowers"
             className="hidden text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] xl:inline-block"
@@ -149,7 +193,7 @@ function StudioInnerLayout() {
           </Link>
           <Link
             href="/gallery"
-            className="hidden text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] lg:inline-block"
+            className="hidden text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)] xl:inline-block"
           >
             Gallery
           </Link>
@@ -159,7 +203,8 @@ function StudioInnerLayout() {
             onClick={() => setAiOpen(true)}
             className="inline-flex min-h-[32px] shrink-0 items-center rounded-full border border-[var(--accent-primary)]/40 bg-[var(--accent-primary-soft)] px-2.5 text-[11px] font-semibold text-[var(--accent-primary)] transition hover:bg-[var(--accent-primary)] hover:text-white sm:min-h-[34px] sm:px-3 sm:text-xs"
           >
-            AI Florist
+            <span className="sm:hidden">AI</span>
+            <span className="hidden sm:inline">AI Florist</span>
           </button>
           <button
             type="button"
@@ -170,177 +215,199 @@ function StudioInnerLayout() {
             <span className="sm:hidden">Drafts</span>
             <span className="hidden sm:inline">My Bouquets</span>
           </button>
-          <span className="hidden text-xs text-[var(--text-muted)] md:inline">
+          <span className="hidden text-xs text-[var(--text-muted)] lg:inline">
             {scene.stems.length} stems
           </span>
-          <button
-            type="button"
-            onClick={() => handleStepSelect(5)}
-            className="min-h-[32px] shrink-0 rounded-full bg-[var(--accent-primary)] px-2.5 text-[11px] font-semibold text-white transition hover:bg-[var(--accent-primary-hover)] sm:min-h-[34px] sm:px-3.5 sm:text-xs"
-          >
-            <span className="sm:hidden">Share</span>
-            <span className="hidden sm:inline">Export &amp; Share</span>
-          </button>
+          {studioMode === "studio" && (
+            <button
+              type="button"
+              onClick={() => handleStepSelect(5)}
+              className="hidden min-h-[34px] shrink-0 rounded-full bg-[var(--accent-primary)] px-3.5 text-xs font-semibold text-white transition hover:bg-[var(--accent-primary-hover)] sm:inline-flex sm:items-center"
+            >
+              Export &amp; Share
+            </button>
+          )}
         </nav>
       </header>
 
-      {/* Five-Step Guided Workflow Stepper */}
-      <div
-        role="navigation"
-        aria-label="Five-step bouquet creation workflow"
-        className="flex shrink-0 items-center justify-between gap-2 border-b border-[var(--border-hairline)] bg-[var(--bg-surface)]/95 px-2 py-1.5 md:px-5"
-      >
-        <div className="grid flex-1 grid-cols-5 gap-1 md:flex md:items-center md:gap-1.5">
-          {WORKFLOW_STEPS.map((item) => {
-            const current = activeStep === item.step;
-            const completed = activeStep > item.step;
-            return (
-              <button
-                key={item.step}
-                type="button"
-                data-testid={`workflow-step-${item.step}`}
-                aria-current={current ? "step" : undefined}
-                onClick={() => handleStepSelect(item.step)}
-                className={`min-h-[32px] truncate rounded-full px-1.5 text-[11px] font-semibold transition md:px-3.5 md:text-xs ${current
-                  ? "bg-[var(--accent-primary)] text-white shadow-2xs"
-                  : completed
-                    ? "bg-[var(--accent-primary-soft)] text-[var(--accent-primary)]"
-                    : "bg-[var(--bg-well)]/70 text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
-                  }`}
-              >
-                <span className="md:hidden">{item.shortLabel}</span>
-                <span className="hidden md:inline">{item.label}</span>
-              </button>
-            );
-          })}
-        </div>
+      {/* MODE A: QUICK CREATE */}
+      {studioMode === "quick" ? (
+        <QuickCreateFlow
+          onSwitchToStudio={() => switchToAdvancedStudio(3)}
+          onOpenAi={() => setAiOpen(true)}
+        />
+      ) : (
+        <>
+          {/* MODE B: ADVANCED STUDIO STEPPER */}
+          <div
+            role="navigation"
+            aria-label="Five-step bouquet creation workflow"
+            className="flex shrink-0 items-center justify-between gap-2 border-b border-[var(--border-hairline)] bg-[var(--bg-surface)]/95 px-2 py-1.5 md:px-5"
+          >
+            <div className="grid flex-1 grid-cols-5 gap-1 md:flex md:items-center md:gap-1.5">
+              {WORKFLOW_STEPS.map((item) => {
+                const current = activeStep === item.step;
+                const completed = activeStep > item.step;
+                return (
+                  <button
+                    key={item.step}
+                    type="button"
+                    data-testid={`workflow-step-${item.step}`}
+                    aria-current={current ? "step" : undefined}
+                    onClick={() => handleStepSelect(item.step)}
+                    className={`min-h-[32px] rounded-full px-1 text-[11px] font-semibold transition sm:px-2 md:px-3.5 md:text-xs ${
+                      current
+                        ? "bg-[var(--accent-primary)] text-white shadow-2xs"
+                        : completed
+                          ? "bg-[var(--accent-primary-soft)] text-[var(--accent-primary)]"
+                          : "bg-[var(--bg-well)]/70 text-[var(--text-secondary)] hover:bg-[var(--bg-hover)]"
+                    }`}
+                  >
+                    <span className="md:hidden">{item.mobileLabel}</span>
+                    <span className="hidden md:inline">{item.label}</span>
+                  </button>
+                );
+              })}
+            </div>
 
-        {/* Desktop Quick Back/Next Step Controls */}
-        <div className="hidden shrink-0 items-center gap-1.5 lg:flex">
-          {activeStep > 1 && (
-            <button
-              type="button"
-              data-testid="step-prev-btn"
-              onClick={() => handleStepSelect((activeStep - 1) as StudioWorkflowStep)}
-              className="min-h-[30px] rounded-full border border-[var(--border-hairline)] bg-white px-3 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-            >
-              ← Back
-            </button>
-          )}
-          {activeStep < 5 && (
-            <button
-              type="button"
-              data-testid="step-next-btn"
-              onClick={() => handleStepSelect((activeStep + 1) as StudioWorkflowStep)}
-              className="min-h-[30px] rounded-full border border-[var(--accent-primary)] bg-[var(--accent-primary-soft)] px-3 text-xs font-semibold text-[var(--accent-primary)] hover:bg-[var(--accent-primary)] hover:text-white"
-            >
-              Next: {WORKFLOW_STEPS[activeStep]?.shortLabel.replace(/^\d+\.\s*/, "")} →
-            </button>
-          )}
-        </div>
-      </div>
-
-      {/* Main Responsive Workspace: Desktop 3-Pane / Mobile Stack */}
-      <div className="relative flex min-h-0 flex-1 overflow-hidden">
-        {isDesktop && activeStep !== 5 && (
-          <aside className="w-[300px] shrink-0 border-r border-[var(--border-hairline)] xl:w-[328px]">
-            <BotanicalLibraryPanel activeStep={activeStep} onStepChange={handleStepSelect} />
-          </aside>
-        )}
-
-        {/* Center Canvas Workspace OR Step 5 Final Share Preview */}
-        <main className="relative min-w-0 flex-1">
-          {activeStep === 5 ? (
-            <FinalSharePreviewStage onBackToStep={(step) => handleStepSelect(step)} />
-          ) : (
-            <StudioCanvasViewport onRequestInspectTab={handleOpenInspectFromCanvas} />
-          )}
-        </main>
-
-        {isDesktop && (
-          <aside className="w-[338px] shrink-0 border-l border-[var(--border-hairline)] xl:w-[368px]">
-            <InspectorAndFinishingPanel
-              activeTab={rightTab}
-              onTabChange={(tab) => {
-                setRightTab(tab);
-                if (tab === "card") setActiveStep(4);
-                else if (tab === "share") setActiveStep(5);
-                else if (activeStep === 4 || activeStep === 5) setActiveStep(3);
-              }}
-              onNavigateStep={(s) => handleStepSelect(s)}
-            />
-          </aside>
-        )}
-      </div>
-
-      {/* Mobile & Tablet (< lg) Compact Bottom Bar + Non-Overlapping Drawer */}
-      {!isDesktop && (
-        <div className="shrink-0 border-t border-[var(--border-hairline)] bg-[var(--bg-surface)]">
-          {mobileDrawer !== "none" && (
-            <div className="flex h-[52vh] max-h-[460px] flex-col border-b border-[var(--border-hairline)] bg-[var(--bg-surface)]">
-              <div className="flex items-center justify-between border-b border-[var(--border-hairline)] px-3 py-2">
-                <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
-                  {mobileDrawer === "library"
-                    ? activeStep === 2
-                      ? "Greenery & Fillers"
-                      : "Botanical Library"
-                    : `Studio • ${mobileDrawer}`}
-                </span>
+            {/* Desktop Quick Panel & Step Controls */}
+            <div className="hidden shrink-0 items-center gap-1.5 lg:flex">
+              {activeStep !== 5 && (
                 <button
                   type="button"
-                  onClick={() => setMobileDrawer("none")}
-                  className="min-h-[32px] rounded-lg px-2.5 text-xs font-semibold text-[var(--accent-primary)]"
+                  onClick={() => setLeftCatalogOpen((prev) => !prev)}
+                  className="min-h-[30px] rounded-full border border-[var(--border-hairline)] bg-white px-3 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
                 >
-                  Done
+                  {leftCatalogOpen ? "Hide Stems" : "Show Stems"}
                 </button>
-              </div>
-              <div className="min-h-0 flex-1 overflow-hidden">
-                {mobileDrawer === "library" ? (
-                  <BotanicalLibraryPanel activeStep={activeStep} onStepChange={handleStepSelect} />
-                ) : (
-                  <InspectorAndFinishingPanel
-                    activeTab={mobileDrawer as RightPanelTab}
-                    onTabChange={(t) => setMobileDrawer(t)}
-                    onNavigateStep={(s) => handleStepSelect(s)}
-                  />
-                )}
+              )}
+              {activeStep > 1 && (
+                <button
+                  type="button"
+                  data-testid="step-prev-btn"
+                  onClick={() => handleStepSelect((activeStep - 1) as StudioWorkflowStep)}
+                  className="min-h-[30px] rounded-full border border-[var(--border-hairline)] bg-white px-3 text-xs font-medium text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                >
+                  ← Back
+                </button>
+              )}
+              {activeStep < 5 && (
+                <button
+                  type="button"
+                  data-testid="step-next-btn"
+                  onClick={() => handleStepSelect((activeStep + 1) as StudioWorkflowStep)}
+                  className="min-h-[30px] rounded-full border border-[var(--accent-primary)] bg-[var(--accent-primary-soft)] px-3 text-xs font-semibold text-[var(--accent-primary)] hover:bg-[var(--accent-primary)] hover:text-white"
+                >
+                  Next: {WORKFLOW_STEPS[activeStep]?.mobileLabel} →
+                </button>
+              )}
+            </div>
+          </div>
+
+          {/* Main Responsive Workspace: Desktop 3-Pane / Mobile Stack */}
+          <div className="relative flex min-h-0 flex-1 overflow-hidden">
+            {isDesktop && activeStep !== 5 && leftCatalogOpen && (
+              <aside className="w-[300px] shrink-0 border-r border-[var(--border-hairline)] xl:w-[328px]">
+                <BotanicalLibraryPanel activeStep={activeStep} onStepChange={handleStepSelect} />
+              </aside>
+            )}
+
+            {/* Center Canvas Workspace OR Step 5 Final Share Preview */}
+            <main className="relative min-w-0 flex-1">
+              {activeStep === 5 ? (
+                <FinalSharePreviewStage onBackToStep={(step) => handleStepSelect(step)} />
+              ) : (
+                <StudioCanvasViewport onRequestInspectTab={handleOpenInspectFromCanvas} />
+              )}
+            </main>
+
+            {isDesktop && (
+              <aside className="w-[338px] shrink-0 border-l border-[var(--border-hairline)] xl:w-[368px]">
+                <InspectorAndFinishingPanel
+                  activeTab={rightTab}
+                  onTabChange={(tab) => {
+                    setRightTab(tab);
+                    if (tab === "card") setActiveStep(4);
+                    else if (tab === "share") setActiveStep(5);
+                    else if (activeStep === 4 || activeStep === 5) setActiveStep(3);
+                  }}
+                  onNavigateStep={(s) => handleStepSelect(s)}
+                />
+              </aside>
+            )}
+          </div>
+
+          {/* Mobile & Tablet (< lg) Compact Bottom Bar + Non-Overlapping Drawer */}
+          {!isDesktop && (
+            <div className="shrink-0 border-t border-[var(--border-hairline)] bg-[var(--bg-surface)]">
+              {mobileDrawer !== "none" && (
+                <div className="flex h-[52vh] max-h-[460px] flex-col border-b border-[var(--border-hairline)] bg-[var(--bg-surface)]">
+                  <div className="flex items-center justify-between border-b border-[var(--border-hairline)] px-3 py-2">
+                    <span className="text-xs font-semibold uppercase tracking-wider text-[var(--text-secondary)]">
+                      {mobileDrawer === "library"
+                        ? activeStep === 2
+                          ? "Greenery & Fillers"
+                          : "Botanical Library"
+                        : `Studio • ${mobileDrawer}`}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => setMobileDrawer("none")}
+                      className="min-h-[32px] rounded-lg px-2.5 text-xs font-semibold text-[var(--accent-primary)]"
+                    >
+                      Done
+                    </button>
+                  </div>
+                  <div className="min-h-0 flex-1 overflow-hidden">
+                    {mobileDrawer === "library" ? (
+                      <BotanicalLibraryPanel activeStep={activeStep} onStepChange={handleStepSelect} />
+                    ) : (
+                      <InspectorAndFinishingPanel
+                        activeTab={mobileDrawer as RightPanelTab}
+                        onTabChange={(t) => setMobileDrawer(t)}
+                        onNavigateStep={(s) => handleStepSelect(s)}
+                      />
+                    )}
+                  </div>
+                </div>
+              )}
+
+              <div className="grid grid-cols-5 gap-1 p-1.5">
+                {(
+                  [
+                    { id: "library", label: "Flowers" },
+                    { id: "inspect", label: "Stem" },
+                    { id: "finish", label: "Style" },
+                    { id: "card", label: "Card" },
+                    { id: "share", label: "Share" },
+                  ] as const
+                ).map((item) => {
+                  const active = mobileDrawer === item.id;
+                  return (
+                    <button
+                      key={item.id}
+                      type="button"
+                      data-testid={`mobile-nav-${item.id}`}
+                      onClick={() => {
+                        if (item.id === "card") setActiveStep(4);
+                        else if (item.id === "share") setActiveStep(5);
+                        else if (item.id === "finish" || item.id === "inspect") setActiveStep(3);
+                        setMobileDrawer(active ? "none" : item.id);
+                      }}
+                      className={`min-h-[42px] rounded-xl text-xs font-semibold transition ${
+                        active
+                          ? "bg-[var(--accent-primary)] text-white"
+                          : "bg-[var(--bg-well)]/60 text-[var(--text-secondary)]"
+                      }`}
+                    >
+                      {item.label}
+                    </button>
+                  );
+                })}
               </div>
             </div>
           )}
-
-          <div className="grid grid-cols-5 gap-1 p-1.5">
-            {(
-              [
-                { id: "library", label: "Flowers" },
-                { id: "inspect", label: "Stem" },
-                { id: "finish", label: "Style" },
-                { id: "card", label: "Card" },
-                { id: "share", label: "Share" },
-              ] as const
-            ).map((item) => {
-              const active = mobileDrawer === item.id;
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  data-testid={`mobile-nav-${item.id}`}
-                  onClick={() => {
-                    if (item.id === "card") setActiveStep(4);
-                    else if (item.id === "share") setActiveStep(5);
-                    else if (item.id === "finish" || item.id === "inspect") setActiveStep(3);
-                    setMobileDrawer(active ? "none" : item.id);
-                  }}
-                  className={`min-h-[42px] rounded-xl text-xs font-semibold transition ${active
-                    ? "bg-[var(--accent-primary)] text-white"
-                    : "bg-[var(--bg-well)]/60 text-[var(--text-secondary)]"
-                    }`}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
-        </div>
+        </>
       )}
 
       <AiAssistantDrawer open={aiOpen} onClose={() => setAiOpen(false)} />
@@ -353,10 +420,12 @@ export function StudioShell({
   initialPresetSlug,
   initialOccasionSlug,
   initialStemSlug,
+  initialMode = "quick",
 }: {
   initialPresetSlug?: string | null;
   initialOccasionSlug?: string | null;
   initialStemSlug?: string | null;
+  initialMode?: StudioMode;
 }) {
   return (
     <StudioSceneProvider
@@ -364,7 +433,7 @@ export function StudioShell({
       initialOccasionSlug={initialOccasionSlug}
       initialStemSlug={initialStemSlug}
     >
-      <StudioInnerLayout />
+      <StudioInnerLayout initialMode={initialMode} />
     </StudioSceneProvider>
   );
 }

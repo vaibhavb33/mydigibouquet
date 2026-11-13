@@ -182,3 +182,11 @@ Every reusable primitive supports `default`, `hover`, `active/selected`, `focus-
 | **`ToastBanner` & `ModalSheet`** | Non-blocking feedback (`"Arranged — Undo"`, `429` retry timer, `Report Abuse`, WebView long-press image modal) | `role="status"` / `aria-live="polite"`; Escape key & backdrop dismiss; explicit `<img src={blobUrl}>` WebView fallback |
 | **`SkeletonCard` & `EmptyStageState`** | Translucent botanical line silhouette while loading or `<3` stems outside `Minimalist` | Zero layout jump (`CLS = 0`); dark-surface aware stroke tokens on `Evening Slate` |
 
+---
+
+## 8. v2.0 Redesign Updates (`Photorealism + Dual-Mode Atelier Clarity`)
+
+- **Photographic Asset Source Mandatory:** Procedural vector-style petals and geometric paper traps are retired; all 40 stems, 11 wrap/vase sets, and bows render from studio-photographed transparent RGBA masters aligned to collar kinematics.
+- **Minimal Studio Chrome:** Replace dual stacked studio headers and 9-button floating canvas docks with a single `60px` header (`Petal & Prose` + `[Quick Create | Advanced Studio]` + `My Bouquets / Share`) and contextual selection pills (`<=4` idle actions; contextual actions only on stem selection).
+- **Consumer Copy Standard:** Replace internal technical phrasing (`"40 Morphological stem assets"`, `"40 botanical SKUs"`) with warm luxury floristry language across public landing pages.
+

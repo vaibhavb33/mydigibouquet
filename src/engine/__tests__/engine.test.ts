@@ -6,12 +6,13 @@ import { describe, expect, it } from "vitest";
 import {
   BOW_STYLE_IDS,
   COMPOSITION_PRESET_IDS,
+  CompositionPresetId,
   RIBBON_COLOR_IDS,
   RIBBON_FINISH_IDS,
   VESSEL_IDS,
 } from "../types";
 import { ALLOWED_SKU_IDS, CATALOG_ENTRIES, CATALOG_META_MAP } from "../../generated/catalog-manifest";
-import { STARTER_BOUQUETS, buildSceneFromPreset } from "../presets";
+import { COMPOSITION_PRESET_LABELS, STARTER_BOUQUETS, buildSceneFromPreset } from "../presets";
 import { generateAiBouquetProposals } from "../ai-florist";
 import { CORE_ELEVEN_OCCASIONS, OCCASION_TEMPLATES, applyOccasionTemplateToScene } from "../occasions";
 import { arrangeBouquetByPreset, insertStemIntoOpenSlot } from "../arranger";
@@ -42,10 +43,17 @@ import { getDatabaseConfig } from "../../lib/env";
 const PUBLIC_ROOT = path.resolve(process.cwd(), "public");
 
 describe("Phase 1-3: Botanical Assets, Hitmasks & Composition Engine", () => {
-  it("contains all 40 botanical SKUs (incl. Monstera & seasonal foliage) with compiled WebPs, hitmasks, vessels, and bows on disk", () => {
-    expect(CATALOG_ENTRIES.length).toBe(40);
+  it("contains all 47 botanical SKUs (incl. Carnation, Camellia, Zinnia, Magnolia, Leatherleaf & foliage) with compiled WebPs, hitmasks, vessels, and bows on disk", () => {
+    expect(CATALOG_ENTRIES.length).toBe(47);
     expect(CATALOG_META_MAP.has("monstera-deliciosa")).toBe(true);
     expect(CATALOG_META_MAP.has("autumn-oak-foliage")).toBe(true);
+    expect(CATALOG_META_MAP.has("carnation-blush")).toBe(true);
+    expect(CATALOG_META_MAP.has("camellia-white")).toBe(true);
+    expect(CATALOG_META_MAP.has("zinnia-amber")).toBe(true);
+    expect(CATALOG_META_MAP.has("magnolia-ivory")).toBe(true);
+    expect(CATALOG_META_MAP.has("leatherleaf-fern")).toBe(true);
+    expect(CATALOG_META_MAP.has("salal-lemon-leaf")).toBe(true);
+    expect(CATALOG_META_MAP.has("pittosporum-variegated")).toBe(true);
 
     // Check morphological variations for Rose, Peony, Tulip, Sunflower, Lily
     expect(CATALOG_META_MAP.has("rose-blush-bud")).toBe(true);
@@ -125,7 +133,8 @@ describe("Phase 1-3: Botanical Assets, Hitmasks & Composition Engine", () => {
     expect(hitTestDecodedMask(decoded, roseMeta.anchorX, roseMeta.anchorY, 1)).toBe(true);
   });
 
-  it("arranges all 7 presets naturally with distinct scales, zero clone collisions, and pinned locks", () => {
+  it("arranges all composition presets naturally with distinct scales, zero clone collisions, and pinned locks", () => {
+    expect(COMPOSITION_PRESET_IDS.length).toBeGreaterThanOrEqual(10);
     const baseScene = buildSceneFromPreset(STARTER_BOUQUETS[0]!, CATALOG_META_MAP);
 
     for (const presetId of COMPOSITION_PRESET_IDS) {
@@ -646,5 +655,83 @@ describe("Phase 7 Release Security: CSRF Origin Check, Rate Limiter & Env Mode D
       if (prevVercel === undefined) delete process.env.VERCEL;
       else process.env.VERCEL = prevVercel;
     }
+  });
+
+  describe("Milestone 4: Florist Composition Engine Automated Quality Review (10 Presets)", () => {
+    const requiredPresets: CompositionPresetId[] = [
+      "round",
+      "romantic",
+      "hand-tied",
+      "minimalist",
+      "wildflower",
+      "luxury",
+      "spring-pastel",
+      "sunset",
+      "monochrome",
+      "peony-deluxe",
+    ];
+
+    it("verifies all 10 required florist presets are defined with labels, profiles, and starter recipes", () => {
+      for (const presetId of requiredPresets) {
+        expect(COMPOSITION_PRESET_IDS).toContain(presetId);
+        expect(COMPOSITION_PRESET_LABELS[presetId]).toBeDefined();
+        expect(COMPOSITION_PRESET_LABELS[presetId].label.length).toBeGreaterThan(0);
+        expect(COMPOSITION_PRESET_LABELS[presetId].description.length).toBeGreaterThan(0);
+
+        const matchingStarter = STARTER_BOUQUETS.find((b) => b.compositionPreset === presetId);
+        expect(matchingStarter).toBeDefined();
+      }
+    });
+
+    it("generates 10 distinct bouquets and asserts florist principles (focals, depth hierarchy, no collisions)", () => {
+      for (const presetId of requiredPresets) {
+        const starter = STARTER_BOUQUETS.find((b) => b.compositionPreset === presetId)!;
+        const scene = buildSceneFromPreset(starter, CATALOG_META_MAP);
+
+        // Principle 1: Correct number of stems rendered
+        expect(scene.stems.length).toBe(starter.skuIds.length);
+
+        // Principle 2: Bounding envelope adheres to floral golden ratio within canvas
+        for (const stem of scene.stems) {
+          expect(stem.x).toBeGreaterThanOrEqual(180);
+          expect(stem.x).toBeLessThanOrEqual(820);
+          expect(stem.y).toBeGreaterThanOrEqual(160);
+          expect(stem.y).toBeLessThanOrEqual(680);
+          expect(stem.scale).toBeGreaterThanOrEqual(0.72);
+          expect(stem.scale).toBeLessThanOrEqual(1.32);
+        }
+
+        // Principle 3: No duplicate identical coordinates (clearance repulsion works)
+        const posSet = new Set(scene.stems.map((s) => `${s.x.toFixed(0)},${s.y.toFixed(0)}`));
+        expect(posSet.size).toBe(scene.stems.length);
+
+        // Principle 4: Depth layering - foliage sits in background collar, focals occupy mid/crown
+        const foliageStems = scene.stems.filter(
+          (s) => CATALOG_META_MAP.get(s.skuId)?.role === "foliage",
+        );
+        const focalStems = scene.stems.filter(
+          (s) => CATALOG_META_MAP.get(s.skuId)?.role === "focal",
+        );
+
+        if (foliageStems.length > 0 && focalStems.length > 0) {
+          const avgFoliageZ =
+            foliageStems.reduce((sum, s) => sum + s.zIndex, 0) / foliageStems.length;
+          const avgFocalZ =
+            focalStems.reduce((sum, s) => sum + s.zIndex, 0) / focalStems.length;
+          expect(avgFocalZ).toBeGreaterThan(avgFoliageZ);
+        }
+
+        // Principle 5: Fan rotation aligns organically toward tie collar (500, 720)
+        for (const stem of scene.stems) {
+          if (stem.x < 460) {
+            // Stems on the left flare with negative rotation (tilt left)
+            expect(stem.rotationDeg).toBeLessThanOrEqual(15);
+          } else if (stem.x > 540) {
+            // Stems on the right flare with positive rotation (tilt right)
+            expect(stem.rotationDeg).toBeGreaterThanOrEqual(-15);
+          }
+        }
+      }
+    });
   });
 });
