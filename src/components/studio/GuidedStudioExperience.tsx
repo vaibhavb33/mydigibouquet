@@ -239,7 +239,7 @@ export function GuidedStudioExperience({
             data-testid="stem-counter"
             className="inline-flex items-center rounded-full border border-[var(--border-hairline)] bg-[var(--bg-well)]/70 px-2.5 py-0.5 text-xs font-medium text-[var(--text-secondary)]"
           >
-            {scene.stems.length} {scene.stems.length === 1 ? "stem" : "stems"}
+            {scene.stems.length} / 18 stems
           </span>
 
           {/* Save Status Indicator */}

@@ -43,7 +43,19 @@ function useIsDesktopLg(): boolean {
 }
 
 function StudioKeyboardBridge() {
-  const { undo, redo, removeStems, setSelectedIds, selectedIds } = useStudioScene();
+  const {
+    undo,
+    redo,
+    removeStems,
+    setSelectedIds,
+    selectedIds,
+    duplicateStems,
+    bringForward,
+    sendBackward,
+    updateStemsTransform,
+    saveProjectToServer,
+    scene,
+  } = useStudioScene();
 
   useEffect(() => {
     const onKeyDown = (e: KeyboardEvent) => {
@@ -65,23 +77,70 @@ function StudioKeyboardBridge() {
       } else if (mod && ((e.key.toLowerCase() === "z" && e.shiftKey) || e.key.toLowerCase() === "y")) {
         e.preventDefault();
         redo();
+      } else if (mod && e.key.toLowerCase() === "d" && selectedIds.length > 0) {
+        e.preventDefault();
+        duplicateStems(selectedIds);
+      } else if (mod && e.key.toLowerCase() === "s") {
+        e.preventDefault();
+        void saveProjectToServer();
       } else if ((e.key === "Delete" || e.key === "Backspace") && selectedIds.length > 0) {
         e.preventDefault();
-        removeStems();
+        removeStems(selectedIds);
       } else if (e.key === "Escape" && selectedIds.length > 0) {
         setSelectedIds([]);
+      } else if (e.key === "[" && selectedIds.length > 0) {
+        e.preventDefault();
+        sendBackward(selectedIds);
+      } else if (e.key === "]" && selectedIds.length > 0) {
+        e.preventDefault();
+        bringForward(selectedIds);
+      } else if (
+        (e.key === "ArrowLeft" ||
+          e.key === "ArrowRight" ||
+          e.key === "ArrowUp" ||
+          e.key === "ArrowDown") &&
+        selectedIds.length > 0
+      ) {
+        e.preventDefault();
+        const delta = e.shiftKey ? 10 : 2;
+        const dx = e.key === "ArrowLeft" ? -delta : e.key === "ArrowRight" ? delta : 0;
+        const dy = e.key === "ArrowUp" ? -delta : e.key === "ArrowDown" ? delta : 0;
+        const updates = scene.stems
+          .filter((s) => selectedIds.includes(s.id) && !s.locked)
+          .map((s) => ({
+            id: s.id,
+            x: Math.max(120, Math.min(880, s.x + dx)),
+            y: Math.max(100, Math.min(840, s.y + dy)),
+            scale: s.scale,
+            rotationDeg: s.rotationDeg,
+          }));
+        if (updates.length > 0) {
+          updateStemsTransform(updates);
+        }
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => window.removeEventListener("keydown", onKeyDown);
-  }, [redo, removeStems, selectedIds, setSelectedIds, undo]);
+  }, [
+    bringForward,
+    duplicateStems,
+    redo,
+    removeStems,
+    saveProjectToServer,
+    scene.stems,
+    selectedIds,
+    sendBackward,
+    setSelectedIds,
+    undo,
+    updateStemsTransform,
+  ]);
 
   return null;
 }
 
 function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMode }) {
-  const { scene, draftSavedAt } = useStudioScene();
+  const { scene, draftSavedAt, saveProjectToServer } = useStudioScene();
   const isDesktop = useIsDesktopLg();
   const [studioMode, setStudioMode] = useState<StudioMode>(initialMode);
   const [activeStep, setActiveStep] = useState<StudioWorkflowStep>(initialMode === "studio" ? 1 : 3);
@@ -243,6 +302,20 @@ function StudioInnerLayout({ initialMode = "guided" }: { initialMode?: StudioMod
             <span className="sm:hidden">Drafts</span>
             <span className="hidden sm:inline">My Bouquets</span>
           </button>
+          {studioMode === "studio" && (
+            <button
+              type="button"
+              data-testid="topbar-save-project-btn"
+              onClick={async () => {
+                await saveProjectToServer();
+                setProjectsOpen(true);
+              }}
+              className="inline-flex min-h-[32px] shrink-0 items-center gap-1 rounded-full border border-[var(--border-hairline)] bg-white px-2.5 text-[11px] font-semibold text-[var(--text-primary)] transition hover:border-[var(--accent-primary)] sm:min-h-[34px] sm:px-3 sm:text-xs"
+            >
+              <span>Save</span>
+              <span className="hidden sm:inline">Project</span>
+            </button>
+          )}
           <span className="hidden text-xs text-[var(--text-muted)] lg:inline">
             {scene.stems.length} stems
           </span>

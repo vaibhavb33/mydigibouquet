@@ -165,11 +165,18 @@ export function InspectorAndFinishingPanel({
           <div className="space-y-4">
             {selectedStems.length === 0 ? (
               <>
-                <div className="rounded-xl border border-[var(--border-hairline)] bg-[var(--bg-well)]/50 p-3.5">
-                  <h3 className="font-display text-lg font-medium">Canvas Stem Inspector</h3>
-                  <p className="mt-1 text-xs leading-relaxed text-[var(--text-secondary)]">
-                    Click any flower or leaf on the bouquet canvas to adjust scale, angle, blooming stage
-                    variation, layer order, or lock position. Hold Shift to select multiple stems.
+                <div
+                  data-testid="no-stem-selected-card"
+                  className="flex flex-col items-center justify-center rounded-2xl border border-dashed border-[var(--border-hairline)] bg-[var(--bg-well)]/40 p-6 text-center"
+                >
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-white text-xl text-[var(--accent-primary)] shadow-2xs">
+                    ✦
+                  </div>
+                  <h3 className="mt-3 font-display text-lg font-medium text-[var(--text-primary)]">
+                    No Stem Selected
+                  </h3>
+                  <p className="mt-1 max-w-[240px] text-xs leading-relaxed text-[var(--text-secondary)]">
+                    Click or tap any flower or leaf on the bouquet canvas to inspect, rotate, scale, or layer it.
                   </p>
                 </div>
 

@@ -248,6 +248,97 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     errors.assertClean();
   });
 
+  test("Advanced Studio Mode: Contextual Controls, Individual Selection, Drag, Rotate, Resize, Duplicate, Delete, Layer Ordering, Undo/Redo, Greenery, Wrapping, Ribbon, Background & Confirmed Reset", async ({
+    page,
+  }) => {
+    fs.mkdirSync(SCRATCH_DIR, { recursive: true });
+    await page.setViewportSize({ width: 1440, height: 900 });
+    const errors = attachErrorCollectors(page);
+
+    // 1. Navigate to Advanced Studio
+    await page.goto("/studio?mode=studio", { waitUntil: "networkidle" });
+    await expect(page.getByTestId("bouquet-konva-container")).toBeVisible();
+    await expect(page.getByTestId("mode-studio-btn")).toHaveAttribute("aria-pressed", "true");
+    await page.waitForFunction(() => document.querySelectorAll("canvas").length > 0);
+
+    // 2. Contextual rule: When no stem is selected, object properties are NOT displayed
+    await page.getByTestId("right-tab-inspect").click();
+    await expect(page.getByTestId("no-stem-selected-card")).toBeVisible();
+    await expect(page.getByTestId("single-stem-inspector")).not.toBeVisible();
+
+    // 3. Greenery placement: Add greenery from botanical library
+    await page.getByTestId("library-filter-foliage").click();
+    await page.getByTestId("add-stem-eucalyptus-silver").click();
+
+    // 4. Individual flower selection & contextual properties activated
+    await expect(page.getByTestId("single-stem-inspector")).toBeVisible();
+    await expect(page.getByRole("region", { name: "Selected stem controls" })).toBeVisible();
+
+    // 5. Rotation (contextual button and slider)
+    await page.getByRole("button", { name: "↺ -15°" }).click();
+    await page.getByRole("button", { name: "↻ +15°" }).click();
+
+    // 6. Resize (contextual scale buttons)
+    await page.getByRole("button", { name: "+ Scale" }).click();
+    await page.getByRole("button", { name: "− Scale" }).click();
+
+    // 7. Duplicate & Layer Ordering
+    await page.getByRole("button", { name: "Duplicate", exact: true }).first().click();
+    await page.getByRole("button", { name: "↑ Layer" }).click();
+    await page.getByRole("button", { name: "↓ Layer" }).click();
+
+    // 8. Delete & Undo / Redo
+    await page.getByRole("button", { name: "Delete", exact: true }).first().click();
+    await page.getByTestId("toolbar-undo").click();
+    await page.getByTestId("toolbar-redo").click();
+
+    // 9. Keyboard controls: Escape to deselect, verify properties hide
+    await page.keyboard.press("Escape");
+    await expect(page.getByTestId("no-stem-selected-card")).toBeVisible();
+    await expect(page.getByTestId("single-stem-inspector")).not.toBeVisible();
+
+    // 10. Wrapping, Ribbon & Background customization
+    await page.getByTestId("right-tab-finish").click();
+    // Wrapping
+    await page.getByTestId("vessel-wrap-natural-kraft").click();
+    // Ribbon
+    await page.getByRole("button", { name: "Velvet Ribbon" }).click();
+    await page.getByRole("button", { name: "Silk Tails" }).click();
+    // Background Surface
+    await page.getByTestId("surface-travertine").click();
+
+    // 11. Save project
+    await page.getByTestId("topbar-save-project-btn").click();
+    await expect(page.getByTestId("saved-projects-drawer")).toBeVisible();
+    await page.keyboard.press("Escape");
+
+    // 12. Reset Arrangement with Confirmation Dialog
+    await page.getByTestId("toolbar-reset").click();
+    await expect(page.getByTestId("confirm-reset-dialog")).toBeVisible();
+    await page.getByTestId("cancel-reset-btn").click();
+    await expect(page.getByTestId("confirm-reset-dialog")).not.toBeVisible();
+
+    await page.getByTestId("toolbar-reset").click();
+    await expect(page.getByTestId("confirm-reset-dialog")).toBeVisible();
+    await page.getByTestId("confirm-reset-btn").click();
+    await expect(page.getByTestId("confirm-reset-dialog")).not.toBeVisible();
+
+    // 13. Verify Quick Create mode is NOT broken
+    await page.getByTestId("mode-quick-btn").click();
+    await expect(page.getByTestId("quick-create-mode")).toBeVisible();
+    await expect(page.getByTestId("quick-step-1")).toBeVisible();
+
+    // Take screenshot of Advanced Studio
+    await page.getByTestId("mode-studio-btn").click();
+    await page.waitForTimeout(300);
+    await page.screenshot({
+      path: path.join(SCRATCH_DIR, "advanced-studio-mode-verified.png"),
+      fullPage: false,
+    });
+
+    errors.assertClean();
+  });
+
   test("Clean Guided Interface: Top Bar, Dominant Canvas, Zoom, Selected Indicators & 4-Step Bottom Nav", async ({
     page,
     context,
@@ -873,7 +964,7 @@ test.describe("Petal & Prose Complete E2E Verification", () => {
     const mobilePage = await context.newPage();
     const mobileErrors = attachErrorCollectors(mobilePage);
     await mobilePage.setViewportSize({ width: 390, height: 844 });
-    await mobilePage.goto("/studio", { waitUntil: "networkidle" });
+    await mobilePage.goto("/studio?mode=studio", { waitUntil: "networkidle" });
     await expect(mobilePage.getByTestId("open-ai-assistant-btn")).toBeVisible();
     await expect(mobilePage.getByTestId("open-projects-btn")).toBeVisible();
     const overflow390 = await mobilePage.evaluate(

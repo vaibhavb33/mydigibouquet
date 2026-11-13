@@ -42,6 +42,7 @@ export function StudioCanvasViewport({
   } = useStudioScene();
 
   const [zoomLevel, setZoomLevel] = React.useState(1.0);
+  const [confirmResetOpen, setConfirmResetOpen] = React.useState(false);
   const containerRef = useRef<HTMLDivElement | null>(null);
   const stageRef = useRef<BouquetKonvaStage | null>(null);
 
@@ -103,7 +104,7 @@ export function StudioCanvasViewport({
       {notice && (
         <div
           role="status"
-          className={`absolute top-3 left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-md backdrop-blur-md ${
+          className={`absolute top-14 left-1/2 z-30 flex max-w-[90%] -translate-x-1/2 items-center gap-2 rounded-full border px-3.5 py-1.5 text-xs font-medium shadow-md backdrop-blur-md ${
             notice.tone === "warning"
               ? "border-[var(--status-warning-border)] bg-[var(--status-warning-fill)] text-[var(--status-warning-ink)]"
               : notice.tone === "error"
@@ -219,6 +220,66 @@ export function StudioCanvasViewport({
             className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)] hover:text-[var(--text-primary)]"
           >
             ↻ +15°
+          </button>
+          <button
+            type="button"
+            title="Decrease size (scale -8%)"
+            onClick={() => {
+              updateStemsTransform(
+                selectedStems.map((s) => ({
+                  id: s.id,
+                  x: s.x,
+                  y: s.y,
+                  scale: Math.max(0.6, Number((s.scale - 0.08).toFixed(2))),
+                  rotationDeg: s.rotationDeg,
+                })),
+              );
+            }}
+            className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)] hover:text-[var(--text-primary)]"
+          >
+            − Scale
+          </button>
+          <button
+            type="button"
+            title="Increase size (scale +8%)"
+            onClick={() => {
+              updateStemsTransform(
+                selectedStems.map((s) => ({
+                  id: s.id,
+                  x: s.x,
+                  y: s.y,
+                  scale: Math.min(1.5, Number((s.scale + 0.08).toFixed(2))),
+                  rotationDeg: s.rotationDeg,
+                })),
+              );
+            }}
+            className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)] hover:text-[var(--text-primary)]"
+          >
+            + Scale
+          </button>
+          <button
+            type="button"
+            title="Bring forward one layer"
+            onClick={() => bringForward()}
+            className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)] hover:text-[var(--text-primary)]"
+          >
+            ↑ Layer
+          </button>
+          <button
+            type="button"
+            title="Send backward one layer"
+            onClick={() => sendBackward()}
+            className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)] hover:text-[var(--text-primary)]"
+          >
+            ↓ Layer
+          </button>
+          <button
+            type="button"
+            title="Duplicate stem"
+            onClick={() => duplicateStems()}
+            className="rounded-full px-2 py-0.5 text-[11px] font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)] hover:text-[var(--text-primary)]"
+          >
+            Duplicate
           </button>
           <button
             type="button"
@@ -365,12 +426,61 @@ export function StudioCanvasViewport({
         <button
           type="button"
           data-testid="toolbar-reset"
-          onClick={resetArrangement}
+          onClick={() => setConfirmResetOpen(true)}
           className="min-h-[36px] rounded-lg px-2.5 text-xs font-medium text-[var(--text-secondary)] hover:bg-[var(--bg-well)]"
         >
-          Auto-Arrange
+          Reset Arrangement
         </button>
       </div>
+
+      {/* Reset Arrangement Confirmation Dialog */}
+      {confirmResetOpen && (
+        <div
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="reset-dialog-title"
+          data-testid="confirm-reset-dialog"
+          className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs"
+        >
+          <div className="w-full max-w-md rounded-2xl border border-[var(--border-hairline)] bg-[var(--bg-surface)] p-6 shadow-xl animate-in fade-in zoom-in-95 duration-150">
+            <div className="flex items-start gap-3.5">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[var(--accent-primary-soft)] text-lg text-[var(--accent-primary)] font-bold">
+                ↻
+              </div>
+              <div>
+                <h3 id="reset-dialog-title" className="font-display text-xl font-medium text-[var(--text-primary)]">
+                  Reset Bouquet Arrangement?
+                </h3>
+                <p className="mt-1.5 text-xs leading-relaxed text-[var(--text-secondary)]">
+                  This will reposition all stems using professional florist balance and clear any manual position pins. Your selected flowers, wrapping, ribbon, and personalized card will be preserved.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-6 flex items-center justify-end gap-2.5">
+              <button
+                type="button"
+                data-testid="cancel-reset-btn"
+                onClick={() => setConfirmResetOpen(false)}
+                className="min-h-[40px] rounded-xl border border-[var(--border-hairline)] bg-white px-4 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+              >
+                Keep Arrangement
+              </button>
+              <button
+                type="button"
+                data-testid="confirm-reset-btn"
+                onClick={() => {
+                  resetArrangement();
+                  setConfirmResetOpen(false);
+                }}
+                className="min-h-[40px] rounded-xl bg-[var(--accent-primary)] px-5 text-xs font-semibold text-white shadow-xs hover:bg-[var(--accent-primary-hover)]"
+              >
+                Reset &amp; Auto-Arrange
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
