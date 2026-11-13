@@ -8,6 +8,7 @@
     "start": "next start",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "qa:batch": "tsx scripts/qa-batch-20-bouquets.ts",
     "build:assets": "node scripts/build-assets.mjs",
     "generate:v2-masters": "node scripts/process-photo-masters.mjs && node scripts/generate-realistic-elements.mjs",
     "db:generate": "drizzle-kit generate",
